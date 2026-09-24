@@ -33,6 +33,6 @@ describe('status shapes read apart at small sizes in greyscale, every character'
               expect(differing(imgs[i], imgs[j]), `${px}px ${bg} ${order[i]} vs ${order[j]}`).toBeGreaterThanOrEqual(min)
         }
       }
-    })
+    }, 30_000) // rasterising 16 frames; the first one also warms resvg up under parallel load
   }
 })
