@@ -1,0 +1,15 @@
+node_modules
+.pnpm-store
+.pnpm-cache
+dist
+dist-lib
+out
+*.log
+.DS_Store
+public/kit
+.scratch
+public/downloads
+public/reference
+public/favicon.svg
+.vercel
+.env*

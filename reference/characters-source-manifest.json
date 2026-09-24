@@ -1,0 +1,1316 @@
+{
+  "title": "Jojo & Friends — character source manifest",
+  "count": 26,
+  "scope": "The approved lead (hero-h) + the 5 companions of the first family sheet (h-family 02–06) + the 20 same-family candidates (options-20 01–20). h-family/01-jojo.png is a crop of the lead and is not a separate character; the later 20 different-art-style explorations (styles-20) are a different family and are not included.",
+  "verification": {
+    "uniqueSha256": 26,
+    "nearestSourcePair": {
+      "pair": "o02/o18",
+      "meanAbsDiff32px": 21.12
+    },
+    "identityMethod": "calm vector master rendered in the source framing vs the source pixels; per-colour IoU over the character's shell / plate / ink / dot classes"
+  },
+  "characters": [
+    {
+      "id": "jojo",
+      "no": 1,
+      "name": {
+        "en": "Jojo",
+        "zh": "Jojo"
+      },
+      "persona": {
+        "zh": "家族里最早的那一个，安静靠谱；信号点一亮，就是在认真听。",
+        "en": "The eldest of the family: calm, dependable, always listening when the dot is lit."
+      },
+      "source": {
+        "file": "reference/hero-h.png",
+        "batch": "hero",
+        "index": "hero-h",
+        "sizePx": 1254,
+        "sha256": "4da1bc6dbd38326430fee82fcab0ad3ac1ac22128307997829d5ea4c6a673671",
+        "originalSha256": "327ecbfadffccf8ddba6e429d6766e9081b0a807f2a03f65f226e5fccbc783c7",
+        "note": "public copy has the embedded C2PA chunk removed; pixels identical"
+      },
+      "form": "靛蓝圆角壳体，左上 U 形缺口托着珊瑚信号点；薄荷脸板贴右下，左眼细、右眼宽的竖槽眼，短横口。",
+      "traits": {
+        "shell": "path",
+        "plate": "path",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#2d3272",
+          "plate": "#cff0e6",
+          "ink": "#2d3272",
+          "mouth": "#2d3272",
+          "dot": "#fe6a4a"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9858,
+        "perColour": {
+          "#2d3171": 0.9827,
+          "#d0f1e7": 0.9892,
+          "#fe6949": 0.9766
+        }
+      }
+    },
+    {
+      "id": "h02",
+      "no": 2,
+      "name": {
+        "en": "Bento",
+        "zh": "便当"
+      },
+      "persona": {
+        "zh": "横着长的一只，喜欢把东西整整齐齐码好。",
+        "en": "Built wide and tidy — likes everything packed neatly in rows."
+      },
+      "source": {
+        "file": "reference/h-family/02.png",
+        "batch": "h-family",
+        "index": "02",
+        "sizePx": 512,
+        "sha256": "4c36c3ee8cca18162c0e73e29a2ae998316b7ff4c30dfad801cc0f681b24ecb8"
+      },
+      "form": "奶油色宽横壳，靛蓝横向脸板偏左下内嵌；薄荷短胶囊眼与横线嘴；顶边右侧缺口托信号点，缺口右肩略低。",
+      "traits": {
+        "shell": "poly",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#f4ead5",
+          "plate": "#2b3274",
+          "ink": "#cef2e8",
+          "mouth": "#cef2e8",
+          "dot": "#fd6e4c"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9752,
+        "perColour": {
+          "#2b3274": 0.9777,
+          "#f4ead5": 0.9757,
+          "#cef2e8": 0.9475,
+          "#fd6e4c": 0.9652
+        }
+      }
+    },
+    {
+      "id": "h03",
+      "no": 3,
+      "name": {
+        "en": "Taro",
+        "zh": "芋圆"
+      },
+      "persona": {
+        "zh": "个子高高，信号点挂在侧边，像随时准备举手。",
+        "en": "Tall and patient, with its dot on the side like a hand half-raised."
+      },
+      "source": {
+        "file": "reference/h-family/03.png",
+        "batch": "h-family",
+        "index": "03",
+        "sizePx": 512,
+        "sha256": "24df5cf2ef5ceb2baf6982aedd88cd3e16804fcc6333ab65e611ff06182383e4"
+      },
+      "form": "淡紫竖高壳，薄荷高脸板几乎填满、四周留窄边；靛蓝高胶囊眼与短横嘴；左侧边缘缺口托信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": 180,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#b1adda",
+          "plate": "#d0f2e8",
+          "ink": "#2b3274",
+          "mouth": "#2b3274",
+          "dot": "#fd7451"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9785,
+        "perColour": {
+          "#d0f2e8": 0.9845,
+          "#b1adda": 0.9743,
+          "#2b3274": 0.9642,
+          "#fd7451": 0.9547
+        }
+      }
+    },
+    {
+      "id": "h04",
+      "no": 4,
+      "name": {
+        "en": "Nemu",
+        "zh": "眠眠"
+      },
+      "persona": {
+        "zh": "眼睛总是弯弯的一条线，看起来刚睡醒，其实很清醒。",
+        "en": "Eyes like two sleepy lines — looks just woken up, is actually wide awake."
+      },
+      "source": {
+        "file": "reference/h-family/04.png",
+        "batch": "h-family",
+        "index": "04",
+        "sizePx": 512,
+        "sha256": "763161317d56ed5c108e6a7ae8bc22c9818e635bba78679bc8e19f01ade1f09f"
+      },
+      "form": "浅蓝壳体右上角斜切，斜边上的缺口托信号点；奶油脸板居中偏右下；两眼是横向短线、嘴是小横线，睡眼惺忪。",
+      "traits": {
+        "shell": "poly",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -53,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "dash",
+          "dash"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#96c5ed",
+          "plate": "#f4ead5",
+          "ink": "#2b3374",
+          "mouth": "#2b3374",
+          "dot": "#fd7351"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.972,
+        "perColour": {
+          "#f4ead5": 0.9768,
+          "#96c5ed": 0.9696,
+          "#2b3374": 0.9362,
+          "#fd7351": 0.9576
+        }
+      }
+    },
+    {
+      "id": "h05",
+      "no": 5,
+      "name": {
+        "en": "Zaza",
+        "zh": "眨眨"
+      },
+      "persona": {
+        "zh": "一只眼睁着、一只眼眨着，好像在说“我懂”。",
+        "en": "One eye open, one mid-wink, as if to say “got it”."
+      },
+      "source": {
+        "file": "reference/h-family/05.png",
+        "batch": "h-family",
+        "index": "05",
+        "sizePx": 512,
+        "sha256": "6fe898c0520d88e5e5cf0644c7436086a3f83f72c3cf7b5de1e54cdbb24f5e31"
+      },
+      "form": "薄荷壳体在后、只从左侧和顶边露出，靛蓝大脸板贴右下；左眼竖长胶囊、右眼横线，正在眨眼；左上缺口托信号点并咬到脸板角。",
+      "traits": {
+        "shell": "poly",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "dash"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#d0f2e8",
+          "plate": "#2b3275",
+          "ink": "#d0f2e8",
+          "mouth": "#d0f2e8",
+          "dot": "#fd7251"
+        }
+      },
+      "cleanup": [
+        "plate corner bitten by a r45 circle around the dot instead of the shell notch (r37.5), leaving a thin mint rim, so the working ring and success badge clear the plate"
+      ],
+      "identity": {
+        "meanIoU": 0.9705,
+        "perColour": {
+          "#2b3275": 0.9797,
+          "#d0f2e8": 0.9501,
+          "#fd7251": 0.9585
+        }
+      }
+    },
+    {
+      "id": "h06",
+      "no": 6,
+      "name": {
+        "en": "Bobo",
+        "zh": "波波"
+      },
+      "persona": {
+        "zh": "顶着一头圆圆的波波头，性格温吞，笑起来很软。",
+        "en": "Wears a round bob of a shell; easy-going, with a soft smile."
+      },
+      "source": {
+        "file": "reference/h-family/06.png",
+        "batch": "h-family",
+        "index": "06",
+        "sizePx": 512,
+        "sha256": "6a4b748b8e5c215a7f285b78cc8738499361db1e37a75d933967ce63fb8d4481"
+      },
+      "form": "靛蓝壳体上方两角都是大圆弧，像一顶圆圆的波波头；奶油脸板偏左下；短胖胶囊眼与宽横线嘴；右上圆弧上的缺口托信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -45,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#2b3375",
+          "plate": "#f5ebd7",
+          "ink": "#2b3375",
+          "mouth": "#2b3375",
+          "dot": "#fd7351"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.954,
+        "perColour": {
+          "#2b3375": 0.9397,
+          "#f5ebd7": 0.9657,
+          "#fd7351": 0.9495
+        }
+      }
+    },
+    {
+      "id": "o01",
+      "no": 7,
+      "name": {
+        "en": "Kiri",
+        "zh": "切切"
+      },
+      "persona": {
+        "zh": "脸板被斜着切掉一个角，做事也喜欢抄近路。",
+        "en": "Its plate has one corner sliced off — fond of shortcuts, too."
+      },
+      "source": {
+        "file": "reference/options-20/01.png",
+        "batch": "options-20",
+        "index": "01",
+        "sizePx": 512,
+        "sha256": "bcdaa910c9f2031d235be1085949ea8dbf4d2aca174c12d1d24cc419ccb49a83"
+      },
+      "form": "靛蓝壳体、左上缺口托信号点；薄荷脸板贴右下，左上角被一刀斜切成 45° 斜边；靛蓝眼一细一粗、嘴是偏右的横线。",
+      "traits": {
+        "shell": "poly",
+        "plate": "poly",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#2c326e",
+          "plate": "#ccf4e9",
+          "ink": "#2c326e",
+          "mouth": "#2c326e",
+          "dot": "#fd6947"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9786,
+        "perColour": {
+          "#ccf4e9": 0.9905,
+          "#2c326e": 0.9585,
+          "#fd6947": 0.961
+        }
+      }
+    },
+    {
+      "id": "o02",
+      "no": 8,
+      "name": {
+        "en": "Mochi",
+        "zh": "麻薯"
+      },
+      "persona": {
+        "zh": "圆脸软软的，一戳就想笑。",
+        "en": "A round, squishy face that giggles when poked."
+      },
+      "source": {
+        "file": "reference/options-20/02.png",
+        "batch": "options-20",
+        "index": "02",
+        "sizePx": 512,
+        "sha256": "ea98daafed62e5b21842ffe0da3462e0c4953ed9dd8616c8083b7ab724cc010f"
+      },
+      "form": "浅蓝圆角壳体，一张奶油色大圆脸偏在右下、被壳体右缘和底缘裁切；靛蓝眼一细一粗，一字嘴偏右；左上缺口托信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#95c5ed",
+          "plate": "#f5ebd6",
+          "ink": "#2c3371",
+          "mouth": "#2c3371",
+          "dot": "#fd6b49"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9722,
+        "perColour": {
+          "#f5ebd6": 0.9713,
+          "#95c5ed": 0.9763,
+          "#2c3371": 0.9604,
+          "#fd6b49": 0.9635
+        }
+      }
+    },
+    {
+      "id": "o03",
+      "no": 9,
+      "name": {
+        "en": "Tata",
+        "zh": "塔塔"
+      },
+      "persona": {
+        "zh": "两层叠起来的小塔，头顶的缺口是它的瞭望台。",
+        "en": "A little two-storey tower; the notch on top is its lookout."
+      },
+      "source": {
+        "file": "reference/options-20/03.png",
+        "batch": "options-20",
+        "index": "03",
+        "sizePx": 512,
+        "sha256": "66957a380ce117e20589a130ef22ad2846c067b9b2a7006a82d034b55ed90630"
+      },
+      "form": "淡紫壳体上下两层：上层较窄、左缘内收，与下层在两侧形成圆角凹口；靛蓝横向脸板，薄荷色眼一细一粗、一字嘴偏右；上层顶边右侧缺口托信号点。",
+      "traits": {
+        "shell": "poly",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#b7b1d6",
+          "plate": "#2d3371",
+          "ink": "#ccf3e8",
+          "mouth": "#ccf3e8",
+          "dot": "#fe6c49"
+        }
+      },
+      "cleanup": [
+        "levelled the top edge: the lobe right of the notch sat ~5px lower than the rest of the top"
+      ],
+      "identity": {
+        "meanIoU": 0.9766,
+        "perColour": {
+          "#2d3371": 0.9889,
+          "#b7b1d6": 0.9697,
+          "#ccf3e8": 0.9545,
+          "#fe6c49": 0.9586
+        }
+      }
+    },
+    {
+      "id": "o04",
+      "no": 10,
+      "name": {
+        "en": "Kuki",
+        "zh": "曲奇"
+      },
+      "persona": {
+        "zh": "侧边被咬了一口的曲奇，完全不在意。",
+        "en": "A cookie with a bite out of its side — and not bothered one bit."
+      },
+      "source": {
+        "file": "reference/options-20/04.png",
+        "batch": "options-20",
+        "index": "04",
+        "sizePx": 512,
+        "sha256": "d131c4186473cc969d9850d3ec86b90ef9c283587ebb304c60e85efa45fe963b"
+      },
+      "form": "奶油色壳体左侧被咬掉一大口，呈 C 形；靛蓝脸板贴满右下角、与壳体右缘和底缘齐平；奶油色眼一细一粗、一字嘴偏右；左上缺口托信号点。",
+      "traits": {
+        "shell": "poly",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#f5ebd6",
+          "plate": "#2c3371",
+          "ink": "#f5ebd6",
+          "mouth": "#f5ebd6",
+          "dot": "#fe6c49"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9677,
+        "perColour": {
+          "#f5ebd6": 0.9611,
+          "#2c3371": 0.9738,
+          "#fe6c49": 0.9631
+        }
+      }
+    },
+    {
+      "id": "o05",
+      "no": 11,
+      "name": {
+        "en": "Pocket",
+        "zh": "兜兜"
+      },
+      "persona": {
+        "zh": "脸板从口袋里探出一截，总是急着给你看点什么。",
+        "en": "Its plate pokes out of the pocket, always eager to show you something."
+      },
+      "source": {
+        "file": "reference/options-20/05.png",
+        "batch": "options-20",
+        "index": "05",
+        "sizePx": 512,
+        "sha256": "99511e487be596386db51880f93b67470ace145cba43b8641d1717c3a7edf9fc"
+      },
+      "form": "靛蓝壳体在后，薄荷色脸板向右探出壳外；脸板右下角是一个更短的圆角小台阶，与主体圆角相接成凹痕；靛蓝眼一细一粗、一字嘴偏右；左上缺口托信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "poly",
+        "plateClip": "overhangs",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#2c3371",
+          "plate": "#cdf4e9",
+          "ink": "#2c3371",
+          "mouth": "#2c3371",
+          "dot": "#fe6c49"
+        }
+      },
+      "cleanup": [
+        "levelled the top edge: the lobe left of the notch sat ~7px lower than the rest of the top"
+      ],
+      "identity": {
+        "meanIoU": 0.9772,
+        "perColour": {
+          "#cdf4e9": 0.9863,
+          "#2c3371": 0.9662,
+          "#fe6c49": 0.9438
+        }
+      }
+    },
+    {
+      "id": "o06",
+      "no": 12,
+      "name": {
+        "en": "Dudu",
+        "zh": "嘟嘟"
+      },
+      "persona": {
+        "zh": "眯着眼、嘟着嘴，像在认真吹一个泡泡。",
+        "en": "Squinting, lips pursed, seriously blowing an invisible bubble."
+      },
+      "source": {
+        "file": "reference/options-20/06.png",
+        "batch": "options-20",
+        "index": "06",
+        "sizePx": 512,
+        "sha256": "ea6229a789d6702719db8242f199d03681342e8a1c1aec98895bae1b9ea2ef74"
+      },
+      "form": "靛蓝壳体，奶油色脸板贴左下、左缘只留一条细边、右侧与顶部露出宽边；一对眯成横线的眼和一个小圆方“嘟”嘴；右上角被大缺口咬去，托着信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "dash",
+          "dash"
+        ],
+        "mouth": "dot",
+        "palette": {
+          "shell": "#2d2e71",
+          "plate": "#f5e8d4",
+          "ink": "#2d2e71",
+          "mouth": "#2d2e71",
+          "dot": "#fe6c4a"
+        }
+      },
+      "cleanup": [
+        "straightened the plate’s left edge: it leaned out ~4px towards the bottom while the right edge stayed vertical"
+      ],
+      "identity": {
+        "meanIoU": 0.9599,
+        "perColour": {
+          "#f5e8d4": 0.9687,
+          "#2d2e71": 0.9469,
+          "#fe6c4a": 0.9627
+        }
+      }
+    },
+    {
+      "id": "o07",
+      "no": 13,
+      "name": {
+        "en": "Dotty",
+        "zh": "点点"
+      },
+      "persona": {
+        "zh": "一只眼长、一只眼圆，看什么都像在认真打量。",
+        "en": "One long eye, one round one — everything gets a careful once-over."
+      },
+      "source": {
+        "file": "reference/options-20/07.png",
+        "batch": "options-20",
+        "index": "07",
+        "sizePx": 512,
+        "sha256": "4d15ef7e6fb1974305b0f40d2c5ae26050719848d9a7152ac4394c7f62779fd0"
+      },
+      "form": "薄荷壳体在后、靛蓝脸板贴右下；左眼竖长胶囊、右眼圆点，不对称的眨眼脸；左上缺口托信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "dot"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#c9f1e5",
+          "plate": "#2d2e71",
+          "ink": "#c9f1e5",
+          "mouth": "#c9f1e5",
+          "dot": "#fe6d4a"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9779,
+        "perColour": {
+          "#2d2e71": 0.9867,
+          "#c9f1e5": 0.967,
+          "#fe6d4a": 0.9624
+        }
+      }
+    },
+    {
+      "id": "o08",
+      "no": 14,
+      "name": {
+        "en": "Vivi",
+        "zh": "薇薇"
+      },
+      "persona": {
+        "zh": "眉眼往上挑，干劲十足，一脸“交给我”。",
+        "en": "Eyes slanted with gusto — the “leave it to me” face."
+      },
+      "source": {
+        "file": "reference/options-20/08.png",
+        "batch": "options-20",
+        "index": "08",
+        "sizePx": 512,
+        "sha256": "fc261c0f89ccb50bcd75570f312b9900190df2760a7880406b1bbe0ee26b6d64"
+      },
+      "form": "浅蓝壳体，靛蓝脸板贴左下、与壳体左缘和底缘齐平；浅蓝眼是一对向内收拢的斜胶囊（\\ /），下方一条宽横杠嘴；右上缺口托信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "tilted capsule",
+          "tilted capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#96c3f0",
+          "plate": "#2d2e71",
+          "ink": "#96c3f0",
+          "mouth": "#96c3f0",
+          "dot": "#fe6b49"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9803,
+        "perColour": {
+          "#2d2e71": 0.9815,
+          "#96c3f0": 0.9801,
+          "#fe6b49": 0.956
+        }
+      }
+    },
+    {
+      "id": "o09",
+      "no": 15,
+      "name": {
+        "en": "Puri",
+        "zh": "布丁"
+      },
+      "persona": {
+        "zh": "小小的嘴、侧边的信号点，安静得像一块布丁。",
+        "en": "Tiny mouth, dot on the side, quiet as a pudding."
+      },
+      "source": {
+        "file": "reference/options-20/09.png",
+        "batch": "options-20",
+        "index": "09",
+        "sizePx": 512,
+        "sha256": "062edf68a588ca9ae0b44ccce0930680a8f1a2e97cd1b979103e7e41011d0bd9"
+      },
+      "form": "淡紫壳体在后、奶油脸板贴右下齐边；一对粗圆竖眼压得很低，中间一颗小圆点嘴；左侧缺口托信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": 180,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "dot",
+        "palette": {
+          "shell": "#b4aeda",
+          "plate": "#f5ead7",
+          "ink": "#2d2f71",
+          "mouth": "#2d2f71",
+          "dot": "#fe6d4a"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9669,
+        "perColour": {
+          "#f5ead7": 0.9719,
+          "#b4aeda": 0.9626,
+          "#2d2f71": 0.9535,
+          "#fe6d4a": 0.9425
+        }
+      }
+    },
+    {
+      "id": "o10",
+      "no": 16,
+      "name": {
+        "en": "Pao",
+        "zh": "泡泡"
+      },
+      "persona": {
+        "zh": "嘴巴圆圆的，总像刚发现了什么新鲜事。",
+        "en": "A round little mouth, forever just-discovered-something."
+      },
+      "source": {
+        "file": "reference/options-20/10.png",
+        "batch": "options-20",
+        "index": "10",
+        "sizePx": 512,
+        "sha256": "924826d32a462837ea08f4aae9ce5364c2bac2801f8c44492418866e4ffc6d42"
+      },
+      "form": "奶油壳体在后、浅蓝脸板贴右下齐边；一对高挑竖长眼，下方一张奶油色圆嘴；左上缺口托信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "dot",
+        "palette": {
+          "shell": "#f5e9d6",
+          "plate": "#99c5f1",
+          "ink": "#2d2f71",
+          "mouth": "#f5e9d6",
+          "dot": "#fe6c4a"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9707,
+        "perColour": {
+          "#99c5f1": 0.9784,
+          "#f5e9d6": 0.9618,
+          "#2d2f71": 0.9609,
+          "#fe6c4a": 0.9584
+        }
+      }
+    },
+    {
+      "id": "o11",
+      "no": 17,
+      "name": {
+        "en": "Tiki",
+        "zh": "蒂奇"
+      },
+      "persona": {
+        "zh": "眼睛竖着排成一列，像一根认真站岗的小柱子。",
+        "en": "Eyes stacked in a column, standing guard like a tiny totem."
+      },
+      "source": {
+        "file": "reference/options-20/11.png",
+        "batch": "options-20",
+        "index": "11",
+        "sizePx": 512,
+        "sha256": "e05a1e975233bfebe28c7dc059de258fa13f4d410f43194e2c62239541799f52"
+      },
+      "form": "靛蓝方壳，左侧嵌一条薄荷竖长条脸板；两只小眼上下叠放、下方一道短横口；右上缺口托橙色信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "stacked",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#272e71",
+          "plate": "#cef1e8",
+          "ink": "#272e71",
+          "mouth": "#272e71",
+          "dot": "#fe8c43"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9768,
+        "perColour": {
+          "#272e71": 0.9788,
+          "#cef1e8": 0.9726,
+          "#fe8c43": 0.9633
+        }
+      }
+    },
+    {
+      "id": "o12",
+      "no": 18,
+      "name": {
+        "en": "Sora",
+        "zh": "空空"
+      },
+      "persona": {
+        "zh": "天蓝色的外壳，拱门一样的脸，信号点是一颗小太阳。",
+        "en": "Sky-blue shell, an archway face, and a little sun for a dot."
+      },
+      "source": {
+        "file": "reference/options-20/12.png",
+        "batch": "options-20",
+        "index": "12",
+        "sizePx": 512,
+        "sha256": "271410a390c2701cc06a62bb264f009d91132b53b0e422f1e42ed51439b43c62"
+      },
+      "form": "天蓝方壳，下方正中立着一块更浅的拱门形脸板、底边与壳齐平；左眼略细、右眼略粗，下方短横口；左上缺口托琥珀色信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#8cc1ed",
+          "plate": "#c1defa",
+          "ink": "#272e71",
+          "mouth": "#272e71",
+          "dot": "#ec9e39"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.979,
+        "perColour": {
+          "#8cc1ed": 0.9862,
+          "#c1defa": 0.9727,
+          "#272e71": 0.9476,
+          "#ec9e39": 0.9553
+        }
+      }
+    },
+    {
+      "id": "o13",
+      "no": 19,
+      "name": {
+        "en": "Jam",
+        "zh": "酱酱"
+      },
+      "persona": {
+        "zh": "脸长在罐子顶上的标签里，装满了好心情。",
+        "en": "Wears its face on the label at the top of the jar — full of good mood."
+      },
+      "source": {
+        "file": "reference/options-20/13.png",
+        "batch": "options-20",
+        "index": "13",
+        "sizePx": 512,
+        "sha256": "90f0dbce57d484032685d49a1338769a1f9bbabb3602161df61612e19428b4a5"
+      },
+      "form": "淡紫罐形壳体，上部横贯一条薄荷色标签脸板；一对竖长眼夹着一道短横口；顶部正中缺口咬穿壳与标签，托桃色信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#b4b2d6",
+          "plate": "#cdf1e7",
+          "ink": "#282f72",
+          "mouth": "#282f72",
+          "dot": "#faac8d"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9723,
+        "perColour": {
+          "#b4b2d6": 0.9743,
+          "#cdf1e7": 0.9741,
+          "#faac8d": 0.972,
+          "#282f72": 0.9314
+        }
+      }
+    },
+    {
+      "id": "o14",
+      "no": 20,
+      "name": {
+        "en": "Peep",
+        "zh": "瞄瞄"
+      },
+      "persona": {
+        "zh": "小脸躲在大身子的角落里，悄悄往外瞄。",
+        "en": "A small face tucked in the corner of a big body, peeking out."
+      },
+      "source": {
+        "file": "reference/options-20/14.png",
+        "batch": "options-20",
+        "index": "14",
+        "sizePx": 512,
+        "sha256": "64b946fe23f09d20c3181ef87def44164c55df048251382831388fedc603c7e1"
+      },
+      "form": "大块奶油方壳，右下角齐边塞着一块小淡紫脸板；左眼细小、右眼粗大，短横口偏在右眼下；左上缺口托信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#f5ebda",
+          "plate": "#b4b2d6",
+          "ink": "#293174",
+          "mouth": "#293174",
+          "dot": "#fd6649"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9817,
+        "perColour": {
+          "#f5ebda": 0.9851,
+          "#b4b2d6": 0.9812,
+          "#293174": 0.944,
+          "#fd6649": 0.9634
+        }
+      }
+    },
+    {
+      "id": "o15",
+      "no": 21,
+      "name": {
+        "en": "Maca",
+        "zh": "马卡"
+      },
+      "persona": {
+        "zh": "一层薄荷夹一层天蓝，像刚出炉的马卡龙。",
+        "en": "Mint, sky-blue, mint — layered like a fresh macaron."
+      },
+      "source": {
+        "file": "reference/options-20/15.png",
+        "batch": "options-20",
+        "index": "15",
+        "sizePx": 512,
+        "sha256": "4a5cd82a07757a52f204520740d474ae1e9cca4e4c7cb0f2f1a634b13921eaaf"
+      },
+      "form": "薄荷方壳中段横贯一条天蓝脸带，靛蓝双竖眼和短嘴都挤在带里；左上缺口托信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#cdf0e7",
+          "plate": "#8cc1ed",
+          "ink": "#272e71",
+          "mouth": "#272e71",
+          "dot": "#fd6346"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9837,
+        "perColour": {
+          "#cdf0e7": 0.9844,
+          "#8cc1ed": 0.9885,
+          "#272e71": 0.9474,
+          "#fd6346": 0.9562
+        }
+      }
+    },
+    {
+      "id": "o16",
+      "no": 22,
+      "name": {
+        "en": "Mino",
+        "zh": "米诺"
+      },
+      "persona": {
+        "zh": "大大的薄荷脸几乎装满了整个壳，最会表达情绪。",
+        "en": "A big mint face that nearly fills its shell — shows every feeling."
+      },
+      "source": {
+        "file": "reference/options-20/16.png",
+        "batch": "options-20",
+        "index": "16",
+        "sizePx": 512,
+        "sha256": "cee4135d0681431e3e3030800dbd03628719cfd91077955fa4175bfa4449cea2"
+      },
+      "form": "靛蓝壳体只在左侧露出一条，大薄荷脸板占满右下；顶部缺口同时咬进壳和脸板的左上大圆角，托住信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#262d6e",
+          "plate": "#cbf2e7",
+          "ink": "#262d6e",
+          "mouth": "#262d6e",
+          "dot": "#fe6946"
+        }
+      },
+      "cleanup": [
+        "signal dot 27→25 px and raised 2 px, plate bite 48→52 px, so the full-size success pop clears the plate (source ring was too tight)"
+      ],
+      "identity": {
+        "meanIoU": 0.9739,
+        "perColour": {
+          "#cbf2e7": 0.984,
+          "#262d6e": 0.9656,
+          "#fe6946": 0.8135
+        }
+      }
+    },
+    {
+      "id": "o17",
+      "no": 23,
+      "name": {
+        "en": "Wowo",
+        "zh": "窝窝"
+      },
+      "persona": {
+        "zh": "头顶像个斜斜的小屋顶，住在里面的它很恋家。",
+        "en": "A slanted little roof on top; a homebody who loves its nook."
+      },
+      "source": {
+        "file": "reference/options-20/17.png",
+        "batch": "options-20",
+        "index": "17",
+        "sizePx": 512,
+        "sha256": "7eb5d12256781337cdb8576a2fabfad10e79277065d02df7ff33ff94b3cd68ae"
+      },
+      "form": "奶油壳顶是一道从左往右斜升的屋顶，右侧拱起圆峰后陡降到小缺口，缺口托着小信号点；靛蓝脸板压在下半部并略微探出壳底。",
+      "traits": {
+        "shell": "poly",
+        "plate": "rect",
+        "plateClip": "overhangs",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#f6e9d4",
+          "plate": "#262e71",
+          "ink": "#f6e9d4",
+          "mouth": "#f6e9d4",
+          "dot": "#fe6b49"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9771,
+        "perColour": {
+          "#262e71": 0.9928,
+          "#f6e9d4": 0.9545,
+          "#fe6b49": 0.9334
+        }
+      }
+    },
+    {
+      "id": "o18",
+      "no": 24,
+      "name": {
+        "en": "Filo",
+        "zh": "夹夹"
+      },
+      "persona": {
+        "zh": "顶上带一个文件夹的小耳朵，喜欢把东西归档。",
+        "en": "A folder tab on top; enjoys putting things where they belong."
+      },
+      "source": {
+        "file": "reference/options-20/18.png",
+        "batch": "options-20",
+        "index": "18",
+        "sizePx": 512,
+        "sha256": "f47d0b9d65d20647bbc45311de28561f4cd2fd5a005339fb877f87e63538bfc7"
+      },
+      "form": "天蓝壳体像一只文件夹：左上凸起的标签页顺滑地台阶式落到右侧，缺口开在标签页上托着信号点；奶油脸板贴右下。",
+      "traits": {
+        "shell": "poly",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#89c3f2",
+          "plate": "#f6e9d4",
+          "ink": "#252d6e",
+          "mouth": "#252d6e",
+          "dot": "#fe6544"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9776,
+        "perColour": {
+          "#f6e9d4": 0.9749,
+          "#89c3f2": 0.9881,
+          "#252d6e": 0.9524,
+          "#fe6544": 0.9659
+        }
+      }
+    },
+    {
+      "id": "o19",
+      "no": 25,
+      "name": {
+        "en": "Tilty",
+        "zh": "歪歪"
+      },
+      "persona": {
+        "zh": "脸总是歪着一点点，看世界的角度很特别。",
+        "en": "Face always tipped a little — sees the world from its own angle."
+      },
+      "source": {
+        "file": "reference/options-20/19.png",
+        "batch": "options-20",
+        "index": "19",
+        "sizePx": 512,
+        "sha256": "48df50726172aa797d6d9e02a68b2db20751eff5a0a03a8dcb616540ca35f937"
+      },
+      "form": "淡紫方壳里的靛蓝脸板逆时针歪了约九度，薄荷色双眼仍然端正；右上缺口同时咬进壳和脸板一角，托着信号点。",
+      "traits": {
+        "shell": "rect",
+        "plate": "rect",
+        "plateClip": "shell",
+        "plateRotate": -9.4,
+        "notchDir": -90,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#bdb2d8",
+          "plate": "#262e71",
+          "ink": "#caf1e7",
+          "mouth": "#caf1e7",
+          "dot": "#fd6443"
+        }
+      },
+      "cleanup": [
+        "notch 44→48 px and dot raised 2 px so the full-size success pop clears the plate"
+      ],
+      "identity": {
+        "meanIoU": 0.9738,
+        "perColour": {
+          "#262e71": 0.9817,
+          "#bdb2d8": 0.9657,
+          "#caf1e7": 0.98,
+          "#fd6443": 0.8714
+        }
+      }
+    },
+    {
+      "id": "o20",
+      "no": 26,
+      "name": {
+        "en": "Hugo",
+        "zh": "抱抱"
+      },
+      "persona": {
+        "zh": "脸板在侧边弯出一个弧，把信号点轻轻抱住。",
+        "en": "Its plate curves in at the side to give the dot a gentle hug."
+      },
+      "source": {
+        "file": "reference/options-20/20.png",
+        "batch": "options-20",
+        "index": "20",
+        "sizePx": 512,
+        "sha256": "a18933b737dd7fb6016b49f314f149970c59ac224af5397f56145eced5639da2"
+      },
+      "form": "靛蓝壳体右侧开口托着信号点，壳的上半截比下半截窄一级；奶油脸板右缘向内收成一道弯，从上方绕开信号点再向右下鼓出。",
+      "traits": {
+        "shell": "poly",
+        "plate": "poly",
+        "plateClip": "shell",
+        "plateRotate": 0,
+        "notchDir": 0,
+        "eyeLayout": "side-by-side",
+        "eyes": [
+          "capsule",
+          "capsule"
+        ],
+        "mouth": "capsule",
+        "palette": {
+          "shell": "#262e71",
+          "plate": "#f6e9d4",
+          "ink": "#262e71",
+          "mouth": "#262e71",
+          "dot": "#fe6947"
+        }
+      },
+      "cleanup": [],
+      "identity": {
+        "meanIoU": 0.9698,
+        "perColour": {
+          "#f6e9d4": 0.9732,
+          "#262e71": 0.9662,
+          "#fe6947": 0.9598
+        }
+      }
+    }
+  ]
+}
