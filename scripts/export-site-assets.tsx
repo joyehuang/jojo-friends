@@ -67,7 +67,8 @@ async function main() {
   for (const ch of CHARACTER_LIST) {
     const dir = join(OUT, ch.id)
     mkdirSync(dir, { recursive: true })
-    const master = renderSvg({ character: ch.id, emotion: 'calm', size: 512, title: `${ch.name.en}（${ch.name.zh}）` })
+    const title = ch.name.zh === ch.name.en ? ch.name.en : `${ch.name.en}（${ch.name.zh}）`
+    const master = renderSvg({ character: ch.id, emotion: 'calm', size: 512, title })
     const raster = png(master, 512)
     const webp = await sharp(raster).webp({ quality: 92, alphaQuality: 100 }).toBuffer()
     const sheet = emotionSheetSvg(ch)
