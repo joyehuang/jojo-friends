@@ -1,5 +1,5 @@
 // Public surface of Jojo & Friends. Everything here is framework-free except
-// the React components (React 18+).
+// the React components (React 19+, including ref-as-prop handles).
 export { Avatar, AvatarStatic, Jojo, JojoStatic, usePrefersReducedMotion } from './Jojo'
 export type { AvatarProps, AvatarStaticProps, JojoHandle, JojoProps, JojoStaticProps } from './Jojo'
 export { CHARACTERS, CHARACTER_IDS, CHARACTER_LIST, DEFAULT_CHARACTER, getCharacter, isCharacterId } from './characters'

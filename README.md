@@ -15,7 +15,7 @@ A family of **26 UI characters** — each one a layered vector master with its o
 
 ## Use it
 
-The library is **not published to npm**. Copy `src/library/` into a React 18+ project:
+The library is **not published to npm**. Copy `src/library/` into a React 19+ project (the imperative handles use React 19's ref-as-prop support):
 
 ```tsx
 import { Avatar, AvatarStatic, renderSvg } from './library'
@@ -69,6 +69,6 @@ tests/                  vitest suites
 - **不是换色的 Jojo**：25 位同伴按各自的 AI 生图原画逐一重建为参数化矢量，斜切脸板、横宽/纵长、侧边缺口、咬口、竖排眼、圆点眼、横线眼、倾斜脸板都保留。
 - **一套规范**：角色数据结构、锚点与几何约束、调色、表情与状态契约、动效强度/时序/可打断、小尺寸简化、静态导出、无障碍、性能与生命周期、新增角色流程，见 [docs/SPEC.md](docs/SPEC.md)。
 - **测试兜底**：26 位 × 16 表情 × 6 状态全部渲染；五官、眉、腮红、眼泪在所有表情/力度/动画时间/视线极值下不出脸板；状态标识在 24–240px 不出画框、不盖脸；Jojo 的输出与已验收版本逐字节一致。
-- **使用**：组件尚未发布到 npm，复制 `src/library/` 即可（需要 React 18+）。
+- **使用**：组件尚未发布到 npm，复制 `src/library/` 即可（需要 React 19+，交互句柄使用 ref-as-prop）。
 - **展示站**：https://jojo-friends.vercel.app ，可按名字/编号查找、试玩全部表情与状态、下载 SVG / 透明 PNG / WebP / 素材包。本站只是 UI 组件展示，不连接任何真实 Agent 或个人任务。
 - **授权**：代码公开可阅但未授权（UNLICENSED）；角色形象的使用授权待确认，未做商标检索。原画为 AI 生图，详见 [reference/README.md](reference/README.md)。

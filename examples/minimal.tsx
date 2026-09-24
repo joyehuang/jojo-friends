@@ -1,4 +1,4 @@
-// Minimal usage. Copy src/library/ into any React 18+ app (not published to npm).
+// Minimal usage. Copy src/library/ into any React 19+ app (not published to npm).
 import { useRef, useState } from 'react'
 import { Avatar, AvatarStatic, CHARACTER_LIST, STATUSES, renderSvg, type JojoHandle, type StatusId } from '../src/library'
 

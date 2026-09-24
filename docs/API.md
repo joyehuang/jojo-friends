@@ -1,8 +1,8 @@
 # API
 
-中文说明：组件在 `src/library/`，只依赖 React 18+。尚未发布到 npm——把这个目录复制进你的项目即可使用。
+中文说明：组件在 `src/library/`，要求 React 19+（交互句柄使用 ref-as-prop），静态字符串导出另使用 react-dom/server。尚未发布到 npm——把这个目录复制进你的项目即可使用。
 
-The library lives in `src/library/` and depends only on React 18+ (`react-dom/server` for `renderSvg`). It is **not published to npm**; copy the folder into your project (or build it with `pnpm build:lib`, which writes an ES module to `dist-lib/`).
+The library lives in `src/library/` and requires React 19+ (ref-as-prop is used for imperative handles; `react-dom/server` is also required for `renderSvg`). It is **not published to npm**; copy the folder into your project (or build it with `pnpm build:lib`, which writes an ES module to `dist-lib/`).
 
 ## Components
 

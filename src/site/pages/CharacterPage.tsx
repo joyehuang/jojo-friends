@@ -284,7 +284,7 @@ function snippet(ch: Character, look: Look) {
   lines.push(`  size={${Math.min(look.size, 96)}}`)
   for (const k of ['shadow', 'brows', 'flat'] as const) if (look[k] !== 'auto') lines.push(`  ${k}={${look[k] === 'on'}}`)
   return [
-    `// 从仓库复制 src/library 目录到你的项目（需要 React 18+；尚未发布到 npm）`,
+    `// 从仓库复制 src/library 目录到你的项目（需要 React 19+；尚未发布到 npm）`,
     `import { Avatar } from './library'`,
     ``,
     `<Avatar`,
