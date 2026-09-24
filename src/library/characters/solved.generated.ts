@@ -196,7 +196,7 @@ export const SOLVED: Record<string, Solved> = {
   }
  },
  "h05": {
-  "hash": "1ca2ad5f",
+  "hash": "bad0e538",
   "browL": {
    "cx": 566.05,
    "cy": 476.1,

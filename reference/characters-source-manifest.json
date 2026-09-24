@@ -252,7 +252,7 @@
         }
       },
       "cleanup": [
-        "plate corner bitten by a r45 circle around the dot instead of the shell notch (r37.5), leaving a thin mint rim, so the working ring and success badge clear the plate"
+        "plate corner bitten by an r48 circle around the dot instead of the shell notch (r37.5), leaving a thin mint rim, so the working ring and success badge clear the plate"
       ],
       "identity": {
         "meanIoU": 0.9705,

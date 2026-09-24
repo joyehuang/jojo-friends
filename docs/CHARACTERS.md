@@ -38,7 +38,7 @@ Generated from the registry by `scripts/gen-manifest.ts` — do not edit by hand
 - 造型：薄荷壳体在后、只从左侧和顶边露出，靛蓝大脸板贴右下；左眼竖长胶囊、右眼横线，正在眨眼；左上缺口托信号点并咬到脸板角。
 - Source: `reference/h-family/05.png` (h-family 05), identity mean IoU 0.971
 - Traits: side-by-side eyes (capsule + dash), capsule mouth, notch -90°, plate rect
-- Cleaned while redrawing: plate corner bitten by a r45 circle around the dot instead of the shell notch (r37.5), leaving a thin mint rim, so the working ring and success badge clear the plate
+- Cleaned while redrawing: plate corner bitten by an r48 circle around the dot instead of the shell notch (r37.5), leaving a thin mint rim, so the working ring and success badge clear the plate
 
 ## No.06 Bobo · 波波 — `h06`
 
