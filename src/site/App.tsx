@@ -34,7 +34,7 @@ function Footer() {
         <strong>不连接任何真实 Agent、账号或个人任务</strong>，也没有登录、数据库或统计追踪。
       </p>
       <p>
-        角色原画由 AI 生图（ChatGPT 图像生成）得到，再按原画逐一重建为分层矢量；代码公开可阅（UNLICENSED），
+        角色原画由 AI 生图（ChatGPT 图像生成）得到，再按原画逐一重建为分层矢量（兜兜、米诺、点点之后修订为第 2 版设计，原画仅作历史来源）；代码公开可阅（UNLICENSED），
         角色形象的使用授权尚待确认，未做商标检索。字体 Fraunces、IBM Plex Mono 按 SIL OFL 1.1 自托管。
       </p>
       <p className='foot-links'>

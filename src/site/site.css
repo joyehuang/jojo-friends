@@ -477,6 +477,17 @@ legend { font-weight: 600; margin-bottom: 8px; padding: 0; }
 .meta dt { color: var(--muted); }
 .meta dd { margin: 0; min-width: 0; }
 .hash { word-break: break-all; }
+.revision-note { margin: 0 0 16px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--rule-strong); font-size: 0.9rem; }
+.revision-note p { margin: 0 0 6px; }
+.revision-note ul { margin: 0; padding-left: 18px; color: var(--ink-soft); }
+@media (min-width: 720px) {
+  .about-grid.revised { grid-template-columns: minmax(0, 1fr); }
+}
+.revision-figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 640px; }
+.revision-figs .source svg { display: block; width: 100%; height: auto; }
+.revision-figs .source img { max-width: 100%; }
+.revision-figs .current { border-radius: 16px; }
+.revision-figs .superseded img, .revision-figs .original img { opacity: 0.9; }
 .cleanup { margin: 4px 0 0; padding-left: 18px; font-size: 0.86rem; color: var(--ink-soft); }
 
 .mini-strip {

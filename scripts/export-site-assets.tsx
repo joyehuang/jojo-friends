@@ -14,7 +14,7 @@ import { copyFileSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { renderToStaticMarkup } from 'react-dom/server'
 import sharp from 'sharp'
-import { AvatarStatic, CHARACTER_LIST, EMOTION_LIST, STATUS_LIST, type Character } from '../src/library'
+import { AvatarStatic, CHARACTER_LIST, designRevision, EMOTION_LIST, STATUS_LIST, type Character } from '../src/library'
 import { renderSvg } from '../src/library/render'
 
 const OUT = 'public/downloads'
@@ -77,8 +77,12 @@ async function main() {
     writeFileSync(join(dir, `${ch.id}-512.webp`), webp)
     writeFileSync(join(dir, `${ch.id}-emotions.svg`), sheet)
 
+    const rev = designRevision(ch)
+    const readme = rev.fromSource ? LICENSE_NOTE : LICENSE_NOTE +
+      `\nDesign: ${ch.name.en} (${ch.id}) is design revision ${rev.revision} (${rev.date}), deliberately revised away from its source image\n` +
+      `(${ch.source.file}, kept as a historical reference). Every file in this kit is revision ${rev.revision}.\n`
     const kit: Zippable = {
-      'README.txt': strToU8(LICENSE_NOTE),
+      'README.txt': strToU8(readme),
       [`${ch.id}.svg`]: strToU8(master),
       [`${ch.id}-512.png`]: raster,
       [`${ch.id}-512.webp`]: webp,
@@ -91,16 +95,27 @@ async function main() {
     }
     writeFileSync(join(dir, `${ch.id}-kit.zip`), zipSync(kit, { level: 9 }))
     family[ch.id] = Object.fromEntries(Object.entries(kit).filter(([k]) => k !== 'README.txt')) as Zippable
-    manifest.push({ id: ch.id, no: ch.no, name: ch.name, persona: ch.persona, source: ch.source, files: Object.keys(kit).length })
+    const design = rev
+    manifest.push({
+      id: ch.id, no: ch.no, name: ch.name, persona: ch.persona, source: ch.source,
+      design: design.fromSource
+        ? { revision: 1, basis: 'redrawn from source' }
+        : { revision: design.revision, basis: 'revised away from source; source is a historical reference', date: design.date, previous: design.previous?.file },
+      files: Object.keys(kit).length,
+    })
   }
   family['manifest.json'] = strToU8(JSON.stringify(manifest, null, 1))
   writeFileSync(join(OUT, 'jojo-friends-kit.zip'), zipSync(family, { level: 9 }))
 
   // reference art for each character page
   rmSync('public/reference', { recursive: true, force: true })
+  // plus the superseded design of every revised character (shown as history, never as the current design)
   for (const ch of CHARACTER_LIST) {
-    mkdirSync(dirname(join('public', ch.source.file)), { recursive: true })
-    copyFileSync(ch.source.file, join('public', ch.source.file))
+    for (const f of [ch.source.file, designRevision(ch).previous?.file]) {
+      if (!f) continue
+      mkdirSync(dirname(join('public', f)), { recursive: true })
+      copyFileSync(f, join('public', f))
+    }
   }
 
   writeFileSync('public/favicon.svg', renderSvg({ character: 'jojo', size: 64, shadow: false, flat: true, framing: 'tight', decorative: true }))

@@ -18,6 +18,7 @@ A character is **data**, not a component. `src/library/characters/<id>.ts` expor
 | `persona` | one light, fictional line (`zh`, `en`); not a job title or real capability |
 | `source` | reference file, sha256 of the public copy, batch/index, size |
 | `form`, `cleanup` | what is visibly distinctive; which generation glitches were cleaned |
+| `design` | optional design revision (§1.1): set only when the character deliberately departs from its source |
 | `shell`, `face` | outline descriptors (see §2); `face` is the plate the features live on |
 | `eyes` | two capsules, viewer-left then viewer-right (stacked eyes: top then bottom) |
 | `mouth` | a capsule; `w === h` is a round dot mouth |
@@ -30,6 +31,17 @@ A character is **data**, not a component. `src/library/characters/<id>.ts` expor
 - the **rig** (§4) that maps shared poses onto this face;
 - placements solved against the character's own plate: brows, cheeks, the needs-input bubble, the working gauge ring and span, the small-size success badge (§6);
 - tear lanes that stay on the plate.
+
+### 1.1 Design revisions
+
+A character starts as **revision 1**: the vector redrawn from its source image. When a later review finds a design problem the source itself has — for example two characters that read as the same face at icon size — the character may be **revised** instead of left as is. A revision:
+
+- keeps the `id`, `no`, names and the whole emotion / status protocol; only geometry (and the `form` / `persona` text describing it) changes;
+- records `design: { revision, date, reason, changes, previous }` in the spec. `previous` points at a render of the superseded design kept in `reference/revisions/` with its sha256; `source` keeps pointing at the original AI image, untouched, as the **historical reference** — it is no longer claimed to match;
+- is metadata only for the solver cache (`specHash` ignores `design`), and is shown on the site ("当前设计 · 第 N 版" next to the superseded version and the source, labelled as such) and in `docs/CHARACTERS.md` / the manifest, where the source IoU of a revised design is marked as not a fidelity score;
+- updates `tests/fixtures/family-hashes.json` deliberately (`scripts/family-hashes.tsx --write`). That fixture fingerprints every character's complete output, so any change to a character that is not a recorded revision fails the suite.
+
+Revised so far (2026-09-25): **Pocket `o05`** and **Mino `o16`** (r1 shared Jojo's face), **Dotty `o07`** (r1 duplicated Zaza's layout). See `docs/CHARACTERS.md`.
 
 Jojo is the exception that proves the rule: `characters/jojo.ts` is hand-frozen from the approved kit's constants with an identity rig, so its markup is byte-identical to the signed-off baseline (`tests/status-node.test.tsx`, 240 hashes).
 
@@ -74,6 +86,8 @@ Hard constraints, checked for every character (`tests/characters.test.ts` via `t
 3. Working / needs-input / success shapes stay inside the view box and off the plate at 24, 32, 96 and 240 px, at rest and in every animated frame, for all 16 emotions.
 4. Status never changes the face: the face markup is identical across all 6 statuses for every emotion.
 5. No two characters share an outline; silhouette IoU between any two is < 0.97 — so a character is never a recolour.
+6. Characters read apart at icon size, not just in outline (`tests/family-revisions.test.ts`, `scripts/distinctness.tsx`): the calm faces at 24 / 32 / 48 px in greyscale are compared by normalised cross-correlation of their light/dark layout. No pair may reach 0.75; the revised characters hold tighter bounds against the characters they used to resemble. This is a floor, not a verdict — the blind greyscale sheets that script writes are meant to be looked at.
+7. Every character's complete output matches its fingerprint in `tests/fixtures/family-hashes.json` (all 16 emotions × 6 statuses × 4 sizes × 3 intensities, gaze extremes, flat / tight variants, animated first paint).
 
 ## 4. Emotions (16) and the shared pose protocol
 

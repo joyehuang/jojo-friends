@@ -10,6 +10,12 @@ These are the **source images** the 26 vector characters were redrawn from. They
 | `sheets/family-h-approved.png` | the six-character family sheet the `h-family` crops come from |
 | `sheets/overview-20.png`, `sheets/group-*.png` | the sheets the `options-20` crops come from; the numbers under each tile in `overview-20.png` were added programmatically and are not part of the artwork |
 
+| `revisions/<id>-r<N>.svg` | superseded vector designs of characters that were later revised (currently `o05`, `o07`, `o16` r1), rendered from the component when they were replaced |
+
+## Design revisions
+
+Three characters no longer follow their source image on purpose: **Pocket `o05`**, **Mino `o16`** and **Dotty `o07`** were revised on 2026-09-25 because their r1 redraws read as another character at icon size (Pocket and Mino as Jojo, Dotty as Zaza). Their source images above are kept unchanged as the historical reference; they are not the current design and their identity IoU against the current vector is low by design. What changed and why is recorded in each spec's `design` field and in `docs/CHARACTERS.md`.
+
 ## Provenance
 
 - All images were generated with ChatGPT's image generation (the UI did not show a model version, so none is claimed). Jojo was generated first; the companions were generated with Jojo attached as a style reference.

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import {
   Avatar, AvatarStatic, CHARACTER_LIST, EMOTION_GROUPS, EMOTION_LIST, EMOTIONS, STATUS_LIST, STATUSES,
-  isEmotionId, isStatusId,
+  designRevision, isEmotionId, isStatusId,
   type Character, type EmotionGroup, type JojoHandle, type MotionPref, type StatusId,
 } from '../../library'
 import { prebuilt, rasterise, saveBlob } from '../downloads'
@@ -330,14 +330,42 @@ function About({ ch }: { ch: Character }) {
   const C = ch.palette
   const swatches: Array<[string, string]> = [['壳体', C.shell], ['脸板', C.face], ['五官', C.ink], ['信号点', C.dot]]
   if (C.mouth !== C.ink) swatches.splice(3, 0, ['嘴', C.mouth])
+  const d = designRevision(ch)
+  const prev = d.previous
   return (
     <section className='panel about' aria-labelledby='about-title'>
-      <h2 id='about-title'>原画与造型</h2>
-      <div className='about-grid'>
-        <figure className='source'>
-          <img src={`/${ch.source.file}`} alt={`${ch.name.en} 的 AI 生图原画`} width={256} height={256} loading='lazy' />
-          <figcaption>AI 生图原画（{ch.source.batch} · {ch.source.index}），矢量母版按它重建</figcaption>
-        </figure>
+      <h2 id='about-title'>{d.fromSource ? '原画与造型' : '原画、设计修订与造型'}</h2>
+      {!d.fromSource && (
+        <div className='revision-note' data-design-revision={d.revision}>
+          <p>
+            <strong>当前是第 {d.revision} 版设计</strong>（{d.date} 修订）。{d.reason!.zh}
+            下面的 AI 生图只作为<strong>历史来源</strong>保留，当前成品有意与它不同。
+          </p>
+          <ul>{d.changes.map((c) => <li key={c.en}>{c.zh}</li>)}</ul>
+        </div>
+      )}
+      <div className={d.fromSource ? 'about-grid' : 'about-grid revised'}>
+        {d.fromSource ? (
+          <figure className='source'>
+            <img src={`/${ch.source.file}`} alt={`${ch.name.en} 的 AI 生图原画`} width={256} height={256} loading='lazy' />
+            <figcaption>AI 生图原画（{ch.source.batch} · {ch.source.index}），矢量母版按它重建</figcaption>
+          </figure>
+        ) : (
+          <div className='revision-figs'>
+            <figure className='source current'>
+              <AvatarStatic character={ch.id} size='100%' title={`${ch.name.en} 当前设计（第 ${d.revision} 版）`} />
+              <figcaption><strong>当前设计 · 第 {d.revision} 版</strong></figcaption>
+            </figure>
+            <figure className='source superseded'>
+              <img src={`/${prev!.file}`} alt={`${ch.name.en} 第 ${prev!.revision} 版设计（已替换）`} width={256} height={256} loading='lazy' />
+              <figcaption>第 {prev!.revision} 版（按原画重建，已替换）</figcaption>
+            </figure>
+            <figure className='source original'>
+              <img src={`/${ch.source.file}`} alt={`${ch.name.en} 的原始 AI 生图参考`} width={256} height={256} loading='lazy' />
+              <figcaption>原始 AI 生图参考（{ch.source.batch} · {ch.source.index}），历史来源，不是当前成品</figcaption>
+            </figure>
+          </div>
+        )}
         <div>
           <p className='prose'>{ch.form}</p>
           <ul className='swatches' aria-label='调色'>
@@ -347,8 +375,14 @@ function About({ ch }: { ch: Character }) {
           </ul>
           <dl className='meta'>
             <dt>稳定 id</dt><dd><code>{ch.id}</code></dd>
-            <dt>来源</dt><dd><code>{ch.source.file}</code></dd>
-            <dt>sha256</dt><dd><code className='hash'>{ch.source.sha256}</code></dd>
+            <dt>设计版本</dt><dd>{d.fromSource ? '第 1 版（按原画重建）' : `第 ${d.revision} 版（${d.date}，有意偏离原画）`}</dd>
+            <dt>{d.fromSource ? '来源' : '原画来源'}</dt><dd><code>{ch.source.file}</code></dd>
+            <dt>{d.fromSource ? 'sha256' : '原画 sha256'}</dt><dd><code className='hash'>{ch.source.sha256}</code></dd>
+            {prev && (
+              <>
+                <dt>第 {prev.revision} 版</dt><dd><code>{prev.file}</code></dd>
+              </>
+            )}
           </dl>
           {ch.cleanup.length > 0 && (
             <>

@@ -87,6 +87,7 @@ export function Spec() {
           <li><b>小尺寸</b>：≤ 64px 紧凑取景，≤ 40px 纯色、去高光与细装饰、笔画不细于约 1.4 设备像素；&lt; 56px 不画眉；状态标识在小尺寸加粗放大。</li>
           <li><b>静态导出</b>：<code>&lt;AvatarStatic&gt;</code> 与 <code>renderSvg()</code> 产出和动画首帧一致的 SVG，可用于 SSR、邮件、图标。</li>
           <li><b>无障碍</b>：默认 <code>role="img"</code> 并以文字说出表情和状态；<code>decorative</code> 隐藏；多实例的 SVG defs id 互不冲突。</li>
+          <li><b>设计修订有记录</b>：角色若有意偏离原画（目前兜兜、米诺、点点为第 2 版），规格里记下版本、原因、改动和上一版文件；原画不改、只作历史来源，每位角色的完整输出都有指纹测试兜底。</li>
           <li><b>性能</b>：全页共享一个 requestAnimationFrame；离屏（IntersectionObserver）与标签页隐藏时暂停；卸载即清理监听与观察器。</li>
         </ul>
       </section>

@@ -64,6 +64,10 @@ pnpm test
 
 The family tests pick the new character up automatically: all 16 × 6 renders, plate containment over every emotion / intensity / loop time / gaze extreme, tears, status clearance and framing at four sizes, "status never changes the face", small-size readability, and "not a recolour of anyone else". (The catalogue test also pins the family to exactly the 26 authorised sources, so update it deliberately if the family grows.)
 
+## Revising an existing character
+
+Keep the `id` and names. Put a render of the current design in `reference/revisions/<id>-r<N>.svg`, change the geometry, and record `design: { revision, date, reason, changes, previous }` in the spec (see `docs/SPEC.md` §1.1). Check it with `check-spec.ts` and `pnpm exec tsx scripts/distinctness.tsx out/distinctness` — look at the blind greyscale sheet, and make sure the new shape doesn't land on someone else. Then `pnpm solve`, `scripts/family-hashes.tsx --write` (only the revised character's fingerprint may change — diff it), `pnpm manifest`, `pnpm test`.
+
 ## 6. Ship
 
 `pnpm build` regenerates every download (SVG / PNG / WebP / kits) from the component output and builds the site.
