@@ -101,6 +101,12 @@ export interface CharacterSpec {
   form: string
   /** source glitches that were deliberately cleaned while redrawing */
   cleanup?: string[]
+  /**
+   * Set when the design deliberately departs from the source art. Absent =
+   * revision 1, the vector redrawn from `source`. Metadata only: it does not
+   * affect rendering or the solved-placement hash.
+   */
+  design?: DesignRevisionDesc
 
   shell: ShapeDesc
   face: ShapeDesc
@@ -130,6 +136,45 @@ export interface CharacterSpec {
   rig?: RigOverrides
   /** normalisation override: target box size on the shared canvas, and a nudge (canvas units, + = right / down) */
   fit?: { size?: number; dx?: number; dy?: number }
+}
+
+/** A deliberate redesign away from the source art (see docs/SPEC.md, "Design revisions"). */
+export interface DesignRevisionDesc {
+  /** 2, 3, … (1 is the redraw from the source image) */
+  revision: number
+  /** ISO date the revision was approved */
+  date: string
+  /** why, in one line */
+  reason: { en: string; zh: string }
+  /** what changed, one visible difference per entry */
+  changes: ReadonlyArray<{ en: string; zh: string }>
+  /** the superseded revision, kept for provenance */
+  previous: {
+    revision: number
+    /** a render of the superseded design (path inside reference/) */
+    file: string
+    sha256: string
+    form: string
+    cleanup?: string[]
+  }
+}
+
+export interface DesignRevision {
+  revision: number
+  /** true while the character is still the redraw of its source image */
+  fromSource: boolean
+  date?: string
+  reason?: { en: string; zh: string }
+  changes: DesignRevisionDesc['changes']
+  previous?: DesignRevisionDesc['previous']
+}
+
+/** The design revision of a character: 1 (redrawn from its source) unless its spec records a revision. */
+export function designRevision(ch: Pick<Character, 'spec'>): DesignRevision {
+  const d = ch.spec.design
+  return d
+    ? { revision: d.revision, fromSource: false, date: d.date, reason: d.reason, changes: d.changes, previous: d.previous }
+    : { revision: 1, fromSource: true, changes: [] }
 }
 
 export interface RigOverrides {
@@ -446,7 +491,9 @@ export function specHash(spec: CharacterSpec) {
     Array.isArray(v) ? `[${v.map(canon).join(',')}]`
       : v && typeof v === 'object' ? `{${Object.keys(v).sort().map((k) => `${k}:${canon((v as Record<string, unknown>)[k])}`).join(',')}}`
         : JSON.stringify(v)
-  const str = `v${SOLVER_VERSION}|${canon(spec)}`
+  // design-revision notes are metadata; leaving them out keeps the hash on geometry and text
+  const { design: _design, ...hashed } = spec
+  const str = `v${SOLVER_VERSION}|${canon(hashed)}`
   let h = 2166136261
   for (let i = 0; i < str.length; i++) h = Math.imul(h ^ str.charCodeAt(i), 16777619)
   return (h >>> 0).toString(16).padStart(8, '0')
