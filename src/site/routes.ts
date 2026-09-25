@@ -63,7 +63,8 @@ export function routeMeta(r: Route): PageMeta {
       return { title: `一起玩 · ${SITE_NAME}`, description: `Jojo 的家族一共 ${CHARACTER_LIST.length} 位。点开任意一位，换表情、换状态，或者戳它一下。`, image: '/og/home.png', type: 'website' }
     case 'character': {
       const c = r.character
-      return { title: `${c.name.en} ${c.name.zh} · 一起玩 · ${SITE_NAME}`, description: `${c.name.en}（${c.name.zh}）：${c.persona.zh} 在这里可以试玩它的 16 种表情和 6 种状态。`, image: '/og/home.png', type: 'website' }
+      const both = c.name.zh === c.name.en ? c.name.en : `${c.name.en} ${c.name.zh}`
+      return { title: `${both} · 一起玩 · ${SITE_NAME}`, description: `${c.name.zh === c.name.en ? c.name.en : `${c.name.en}（${c.name.zh}）`}：${c.persona.zh} 在这里可以试玩它的 16 种表情和 6 种状态。`, image: '/og/home.png', type: 'website' }
     }
     case 'about':
       return { title: `关于 · ${SITE_NAME}`, description: '这个小家是什么、故事里哪些是真的，以及角色的使用与授权。', image: '/og/home.png', type: 'website' }

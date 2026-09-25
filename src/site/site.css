@@ -303,7 +303,7 @@ h3 { font-size: 1rem; margin: 0 0 8px; }
 }
 .house-note:hover { transform: rotate(0deg) translateY(-2px); color: var(--ink); }
 .hn-pin { position: absolute; top: -6px; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 3px var(--card); }
-.hn-kicker { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.02em; }
+.hn-kicker { font-family: var(--mono); font-size: 0.76rem; color: var(--muted); letter-spacing: 0.02em; }
 .hn-title { font-family: var(--serif); font-weight: 700; font-size: 1.02rem; line-height: 1.4; }
 .hn-go { font-size: 0.84rem; color: var(--coral-ink); margin-top: 2px; }
 @media (max-width: 640px) {
@@ -525,6 +525,9 @@ figcaption { text-align: center; color: var(--muted); font-size: 0.92rem; margin
   touch-action: manipulation;
 }
 .friend.alt .friend-stage { background: var(--sky-soft); }
+@media (max-width: 859px) {
+  .friend-stage { justify-self: center; max-width: 260px; }
+}
 .friend-stage .framed { width: 100%; }
 .friend-role { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); margin: 0; letter-spacing: 0.03em; }
 .friend-name { font-family: var(--serif); font-size: clamp(2rem, 4.4vw, 2.7rem); line-height: 1.25; margin: 2px 0 14px; }

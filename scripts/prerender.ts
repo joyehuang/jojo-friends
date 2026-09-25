@@ -122,8 +122,9 @@ function houseOg() {
         h('path', { d: 'M24 452 H576', ...line }),
       ),
       ...actors([
-        { id: 'jojo', emotion: 'happy', x: ox + 118 * k, y: oy + 236 * k, size: 224 },
-        { id: 'o18', emotion: 'calm', x: ox + 352 * k, y: oy + 262 * k, size: 118 },
+        // in the doorway (door centre x 230, ground y 452) and at the window (centre x 408)
+        { id: 'jojo', emotion: 'happy', x: ox + 230 * k - 90, y: oy + 452 * k - 71 - 90, size: 180 },
+        { id: 'o18', emotion: 'calm', x: ox + 408 * k - 55, y: oy + 300 * k - 55, size: 110 },
       ]),
     ),
   )

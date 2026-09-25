@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { Avatar, AvatarStatic, CHARACTER_LIST, type EmotionId, type JojoHandle } from '../../library'
-import { STORIES, shortDate, type Story } from '../content/stories'
+import { STORIES, type Story } from '../content/stories'
 import { Faces, Framed, StoryCard } from '../parts'
 import { Link } from '../router'
 
@@ -51,7 +51,7 @@ function HouseScene({ latest }: { latest: Story }) {
       </div>
       <Link to={`/stories/${latest.id}`} className='house-note'>
         <span className='hn-pin' aria-hidden='true' />
-        <span className='hn-kicker'>新的一篇 · {shortDate(latest.date)}</span>
+        <span className='hn-kicker'>新的一篇 · <time dateTime={latest.date}>{latest.date.slice(5).replace('-', '.')}</time></span>
         <span className='hn-title'>{latest.title}</span>
         <span className='hn-go'>读这一篇 →</span>
       </Link>

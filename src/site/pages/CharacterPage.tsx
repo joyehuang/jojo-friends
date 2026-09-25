@@ -363,7 +363,7 @@ export default function CharacterPage({ character: ch }: { character: Character 
       <header className='detail-head'>
         <p className='eyebrow'>No.{pad(ch.no)} · 一起玩</p>
         <h1 className='display small'>
-          {ch.name.en} <span className='zh'>{ch.name.zh}</span>
+          {ch.name.en}{ch.name.zh !== ch.name.en && <> <span className='zh'>{ch.name.zh}</span></>}
         </h1>
         <p className='lead'>{ch.persona.zh}</p>
         {ch.id === 'jojo' && <p className='lives-here'>Jojo 住在这个小家里。<Link to='/friends#jojo'>认识 Jojo →</Link></p>}
