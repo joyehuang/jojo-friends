@@ -11,7 +11,7 @@ Joye's personal character IP: a family of **26 characters** — each one a layer
 - **26 characters, not 26 recolours.** Jojo (the approved lead) plus 25 companions redrawn from their AI-generated source art as parametric vectors (three of them — Pocket, Mino and Dotty — later revised so they no longer read as Jojo or Zaza; see [design revisions](docs/SPEC.md#11-design-revisions)): rounded polygons, circles and filleted notches — no embedded bitmaps, no auto-traced paths. Chamfered and tilted plates, landscape and portrait shells, side notches, bites, stacked eyes, dot eyes and dash eyes are all kept.
 - **One protocol.** `calm, focus, think, puzzled, curious, happy, laugh, smug, shy, celebrate, surprised, angry, sleepy, aggrieved, cry, sob` × `idle, working, needs-input, success, error, offline` for every character, with intensity, motion modes, gaze, poke and status replay. Status never changes the face.
 - **Held by tests.** For every character: all 96 emotion × status renders, features and tears on the plate across every emotion, intensity, loop time and gaze extreme, status shapes in frame and off the face at 24–240 px, 24 px greyscale readability, a silhouette check that no two characters are the same shape, a greyscale icon-size look-alike check, and a fingerprint of every character's full output so an unrecorded change fails. Jojo's markup is pinned byte-for-byte to the approved baseline (240 hashes).
-- **A static showcase site** (Vite + React) to browse the family and play with every character. The public build is checked (`scripts/check-public-dist.ts`, run by `pnpm build` and `tests/public-site.test.ts`) to contain only the page, its JS/CSS/fonts, a 404 page and the favicon: no downloads, kits, source art, revision masters, source maps or repository links.
+- **Jojo 的小家 (Jojo House), the public site** (Vite + React, prerendered). Jojo's home rather than a parameter showcase: the home page, short **stories** (each marked *共同经历 · 演绎* or *原创小故事*), the **friends** who live there (Jojo and Filo 夹夹), and **一起玩** — the whole 26-character family to play with (the old `/c/<id>` links still work). The public build is checked (`scripts/check-public-dist.ts`, run by `pnpm build` and `tests/public-site.test.ts`) to contain only the prerendered pages, their JS/CSS/fonts, story stills, share images, a 404 page and the favicon: no downloads, kits, source art, revision masters, standard-avatar exports, source maps, private paths or repository links.
 
 ## Use it (private)
 
@@ -32,11 +32,61 @@ See [docs/API.md](docs/API.md) for every prop, and `examples/minimal.tsx`.
 
 ```sh
 pnpm install
-pnpm dev             # favicon, then starts the site
-pnpm test            # vitest: legacy Jojo suite + family contract + public-build guard
-pnpm build           # favicon → typecheck → dist/ → public-build check
+pnpm dev             # favicon, then starts the site (client-rendered)
+pnpm test            # vitest: legacy Jojo suite + family contract + site (stories, routes, hydration, centring) + public-build guard
+pnpm build           # favicon → typecheck → client build → server build → prerender every page → public-build check
+pnpm serve:dist      # serve dist/ with the host's exact routing (vercel.json rewrites, real 404s, no SPA fallback)
 pnpm export:private  # full asset kit (SVG / PNG / WebP / zips) → private-exports/ (gitignored, never deployed)
+pnpm avatars         # standard 1024 avatars + centring audit for all 26 → private-exports/standard-avatars/ (private)
 ```
+
+### The site
+
+| Path | Page |
+| --- | --- |
+| `/` | home: the house, the newest story, who lives here |
+| `/stories`, `/stories/<id>` | stories, newest first; each opens, refreshes and shares on its own |
+| `/friends` | Jojo and Filo 夹夹 |
+| `/play`, `/c/<id>` | play with any of the 26 (emotion / status / poke / share link) |
+| `/about` | what this is, what in the stories is real, use and licensing |
+
+Every path is prerendered to its own HTML file (`scripts/prerender.ts`) with its own title, description and share tags; `vercel.json` maps each route to its file with an exact rewrite (no catch-all), so anything else — including the retired `/downloads`, `/reference` and `/kit` — is a real 404. Absolute share URLs use the deployment's own host (the preview URL on previews), and every non-production build is `noindex`. The site doesn't claim a domain it doesn't have.
+
+### Adding a story
+
+1. Add `src/site/content/stories/NN-some-id.md`:
+
+   ```md
+   ---
+   id: some-id                 # the URL: /stories/some-id
+   no: 4                       # order; the highest number is "newest"
+   title: 标题
+   excerpt: 一两句，出现在列表和分享卡片里。
+   kind: shared                # shared = 共同经历 · 演绎 (based on something real) · original = 原创小故事
+   date: 2026-10-01            # when it was written
+   happened: 2026-09-30        # optional, shared stories: when the real thing happened
+   cast: jojo, o18             # character ids, most important first
+   cover: scene jojo:happy o18:smug   # or: film jojo-builds-home
+   basis: 真实的部分是……；其余是演绎。   # required: what is real and what is made up
+   ---
+
+   正文按空行分段。可以用 **加重**、*强调* 和 [站内链接](/friends)。
+
+   ::scene jojo:curious | 图注（一位或两位角色，静态）
+
+   ***
+
+   ::still jojo-builds-home night | 原片的一帧
+   ::video jojo-builds-home
+   ```
+
+2. `pnpm test` checks the front matter, ids, characters, emotions and films, and that no email, account number, local path or chat-platform name slipped in. Films live in `src/site/content/media.ts` (the video stays on the existing media host and loads only when a reader presses play; the site ships a small WebP poster and stills).
+
+Keep facts to what is actually known and say so in `basis`; dialogue and thoughts are always 演绎, never presented as logs or chat records.
+
+### Avatar centring
+
+The library's viewBoxes are deliberately not centred on the character (they leave room down-right for the drop shadow and for motion). The site's static avatars use one rule, `src/site/avatar-frame.ts`: the subject — shell ∪ face plate ∪ signal dot, never the shadow — has its bounding-box centre on the frame centre and its farthest point at 470/1024 of the frame. Live avatars get the same constant per-character offset (never per frame), so the library's motion and status coordinates are untouched. `pnpm avatars` applies the same rule to produce private 1024 px JPG/PNG avatars and an audit manifest; those files are never part of the site.
 
 Tools: `scripts/ref/measure.ts` (measure a source image), `scripts/ref/check-spec.ts` (identity + constraints + contact sheet for a draft character), `pnpm identity`, `pnpm sheets`, `scripts/gen-manifest.ts`.
 
@@ -48,7 +98,7 @@ src/library/            the portable component library (React + SVG, no other ru
   character.ts          CharacterSpec schema, normalisation, placement solvers
   shapes.ts             parametric outlines (rounded polygons, circles, notches)
   emotions.ts pose.ts rig.ts status.ts signals.ts frame.ts engine.ts   the shared protocol
-src/site/               the showcase website
+src/site/               the website (pages/, content/stories/*.md, routes.ts, prerender entry)
 reference/              the 26 source images + characters-source-manifest.json
 docs/                   SPEC, API, CHARACTERS, EXTENDING
 scripts/                asset export, measurement, identity, contact sheets
@@ -72,6 +122,6 @@ tests/                  vitest suites
 - **一套规范**：角色数据结构、锚点与几何约束、调色、表情与状态契约、动效强度/时序/可打断、小尺寸简化、静态导出、无障碍、性能与生命周期、新增角色流程，见 [docs/SPEC.md](docs/SPEC.md)。
 - **测试兜底**：26 位 × 16 表情 × 6 状态全部渲染；五官、眉、腮红、眼泪在所有表情/力度/动画时间/视线极值下不出脸板；状态标识在 24–240px 不出画框、不盖脸；Jojo 的输出与已验收版本逐字节一致。
 - **仓库已转为私有**（2026-09-25）：这是 Joye 的个人角色 IP，不再公开源码和素材。组件不发布、不对外授权；需要完整素材时在本地运行 `pnpm export:private`（输出到 gitignore 的 `private-exports/`，不会进入网站构建）。
-- **展示站**：https://jojo-friends.vercel.app 继续公开，可按名字/编号查找、试玩全部表情与状态、分享角色链接；不再提供源码链接、复制代码、SVG / PNG / WebP 导出或素材包下载。`pnpm build` 与 `tests/public-site.test.ts` 会检查公开构建里没有下载、素材包、原画、母版、source map 或仓库链接。本站不连接任何真实 Agent 或个人任务。
+- **网站「Jojo 的小家」**：首页、故事（每篇标注“共同经历 · 演绎”或“原创小故事”）、伙伴（Jojo、夹夹）、一起玩（全家族 26 位，旧的 `/c/<id>` 链接照常可用）。新增故事见上方 *Adding a story*。生产站 https://jojo-friends.vercel.app 在本分支合并前保持原样。站点不再提供源码链接、复制代码、SVG / PNG / WebP 导出或素材包下载。`pnpm build` 与 `tests/public-site.test.ts` 会检查公开构建里没有下载、素材包、原画、母版、source map 或仓库链接。本站不连接任何真实 Agent 或个人任务。
 - **授权**：代码私有且未授权（UNLICENSED）；角色形象没有通用使用授权，未做商标检索，使用或合作请走 https://www.joyehuang.me/contact 。原画为 AI 生图，详见 [reference/README.md](reference/README.md)。
 - **残余边界**：网站正常运行时，浏览器必然会下载前端 JS 和渲染出的 SVG，技术上无法阻止有人从页面里提取当前角色图形；此前公开期间已被克隆或下载的副本也无法收回。

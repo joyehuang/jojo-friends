@@ -14,12 +14,28 @@
   ],
   "rewrites": [
     {
-      "source": "/c/:id",
-      "destination": "/index.html"
+      "source": "/stories",
+      "destination": "/stories/index.html"
+    },
+    {
+      "source": "/stories/:id",
+      "destination": "/stories/:id/index.html"
+    },
+    {
+      "source": "/friends",
+      "destination": "/friends/index.html"
+    },
+    {
+      "source": "/play",
+      "destination": "/play/index.html"
     },
     {
       "source": "/about",
-      "destination": "/index.html"
+      "destination": "/about/index.html"
+    },
+    {
+      "source": "/c/:id",
+      "destination": "/c/:id/index.html"
     }
   ],
   "headers": [

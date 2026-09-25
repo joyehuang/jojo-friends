@@ -1,6 +1,7 @@
-// Guards the public showcase build: it may contain the page, its JS/CSS/fonts
-// and the favicon — never downloads, asset kits, source art, vector masters,
-// source maps or links to the (private) repository.
+// Guards the public showcase build: it may contain the prerendered pages, their
+// JS/CSS/fonts, the story stills and share images, and the favicon — never
+// downloads, asset kits, source art, vector masters, standard avatar exports,
+// source maps, private paths or links to the (private) repository.
 //   pnpm exec tsx scripts/check-public-dist.ts [dist]      (runs at the end of `pnpm build`)
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
@@ -12,9 +13,16 @@ const ALLOWED = [
   /^404\.html$/,
   /^favicon\.svg$/,
   /^assets\/[\w.-]+\.(js|css|woff2?)$/,
+  // prerendered pages, one per route (see src/site/routes.ts)
+  /^(stories|friends|play|about)\/index\.html$/,
+  /^stories\/[a-z0-9-]+\/index\.html$/,
+  /^c\/[a-z0-9]+\/index\.html$/,
+  // story poster / stills (960 px WebP) and share images (1200×630)
+  /^assets\/[\w-]+-[\w-]{8}\.webp$/,
+  /^og\/[a-z0-9-]+\.png$/,
 ]
 /** Paths that must never be published, whatever their extension. */
-const FORBIDDEN_PATH = /(^|\/)(downloads|reference|revisions|kit|private-exports|dist-lib|out)(\/|$)|\.(zip|map|tgz|tar|gz|psd|ai|ts|tsx)$/i
+const FORBIDDEN_PATH = /(^|\/)(downloads|reference|revisions|kit|private-exports|standard-avatars|dist-lib|out|\.vite|\.ssr)(\/|$)|\.(zip|map|tgz|tar|gz|psd|ai|ts|tsx|jpe?g|mp4)$/i
 /** Strings that mean a download / developer entry point shipped anyway. */
 const FORBIDDEN_TEXT: Array<[RegExp, string]> = [
   [/github\.com\/joyehuang/i, 'link to the source repository'],
@@ -25,6 +33,13 @@ const FORBIDDEN_TEXT: Array<[RegExp, string]> = [
   [/复制代码|在 React 里使用/, 'copy-code / install section'],
   [/toBlob\(/, 'in-browser PNG/WebP exporter'],
   [/import \{ Avatar \} from/, 'copy-paste install snippet'],
+  [/private-exports|standard-avatars/, 'path of the private exports'],
+  [/\/Users\/[a-z]|\/home\/[a-z]+\//, 'local file path'],
+  [/jojo\.house/i, 'a domain the site does not own'],
+]
+/** Only checked in HTML: minified JS legitimately contains "@" sequences. */
+const FORBIDDEN_HTML: Array<[RegExp, string]> = [
+  [/[\w.+-]+@[\w-]+\.[\w.]*[a-z]{2,}/i, 'an email address'],
 ]
 
 function walk(dir: string, root = dir): string[] {
@@ -42,6 +57,7 @@ export function checkPublicDist(dir: string): string[] {
     if (!/\.(html|js|css|svg)$/.test(file)) continue
     const text = readFileSync(join(dir, file), 'utf8')
     for (const [re, what] of FORBIDDEN_TEXT) if (re.test(text)) problems.push(`${file}: contains ${what} (${re})`)
+    if (file.endsWith('.html')) for (const [re, what] of FORBIDDEN_HTML) if (re.test(text)) problems.push(`${file}: contains ${what} (${re})`)
   }
   return problems
 }

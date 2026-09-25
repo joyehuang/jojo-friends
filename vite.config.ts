@@ -7,7 +7,7 @@ export default defineConfig({
   base: '/',
   plugins: [react()],
   cacheDir: 'node_modules/.vite',
-  build: { outDir: 'dist', assetsDir: 'assets', sourcemap: false, reportCompressedSize: true },
+  build: { outDir: 'dist', assetsDir: 'assets', sourcemap: false, reportCompressedSize: true, manifest: true },
   test: {
     environment: 'jsdom',
     include: ['tests/**/*.test.{ts,tsx}'],

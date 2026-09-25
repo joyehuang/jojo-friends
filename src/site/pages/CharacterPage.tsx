@@ -6,6 +6,14 @@ import {
 } from '../../library'
 import { QUIET, tri, useLook, type Backdrop, type GazePref, type Look, type Tri } from '../look'
 import { Link, navigate, useLocation } from '../router'
+import { centreShift } from '../avatar-frame'
+import { Framed } from '../parts'
+
+/** A fixed-size avatar nudged so the character (not its shadow room) is centred; constant, never per frame. */
+function Centred({ ch, px, children }: { ch: Character; px: number; children: ReactNode }) {
+  const d = centreShift(ch, px)
+  return <span className='centred' style={{ transform: `translate(${d.x.toFixed(2)}%, ${d.y.toFixed(2)}%)` }}>{children}</span>
+}
 
 const pad = (n: number) => String(n).padStart(2, '0')
 const GROUPS: EmotionGroup[] = ['daily', 'bright', 'swing', 'blue']
@@ -90,22 +98,14 @@ function Stage({ ch, replayKey }: { ch: Character; replayKey: number }) {
         onClick={() => ref.current?.poke()}
         aria-label={`戳一下 ${ch.name.en}（${ch.name.zh}）`}
       >
-        <Avatar ref={ref} {...avatarProps(ch, look)} motion={look.motion} gaze={look.gaze} size={look.size} decorative />
+        <Centred ch={ch} px={look.size}>
+          <Avatar ref={ref} {...avatarProps(ch, look)} motion={look.motion} gaze={look.gaze} size={look.size} decorative />
+        </Centred>
       </button>
       <p className='stage-caption' aria-live='polite'>
         {stateText(ch, look)}
-        <span className='muted'> · 点击或按空格“戳一下”</span>
+        <span className='muted'> · 点它一下，或按空格“戳一下”</span>
       </p>
-      <div className='sizes' aria-label='小尺寸预览'>
-        {[24, 32, 48, 64, 96].map((px) => (
-          <figure key={px}>
-            <div className={`size-box bg-${look.backdrop}`}>
-              <AvatarStatic {...avatarProps(ch, look)} size={px} decorative />
-            </div>
-            <figcaption>{px}px</figcaption>
-          </figure>
-        ))}
-      </div>
     </div>
   )
 }
@@ -133,7 +133,7 @@ function Controls({ ch, onReplay }: { ch: Character; onReplay: () => void }) {
       </fieldset>
 
       <fieldset className='emo'>
-        <legend>业务状态 <span className='muted'>只改信号标识，不改表情</span></legend>
+        <legend>状态 <span className='muted'>只改信号点旁的小标识，不改表情</span></legend>
         <div className='chips'>
           {STATUS_LIST.map((s) => (
             <button key={s.id} type='button' className='chip status-chip' aria-pressed={look.status === s.id} onClick={() => set({ status: s.id })}>
@@ -145,35 +145,52 @@ function Controls({ ch, onReplay }: { ch: Character; onReplay: () => void }) {
         <p className='seg-note'>{STATUSES[look.status].signal}</p>
       </fieldset>
 
-      <div className='row2'>
-        <label className='slider'>
-          <span>力度 <output>{look.intensity.toFixed(2)}</output></span>
-          <input type='range' min={0} max={1} step={0.05} value={look.intensity} onChange={(e) => set({ intensity: Number(e.target.value) })} />
-        </label>
-        <label className='slider'>
-          <span>尺寸 <output>{look.size}px</output></span>
-          <input type='range' min={24} max={320} step={4} value={look.size} onChange={(e) => set({ size: Number(e.target.value) })} />
-        </label>
-      </div>
-
-      <Segmented legend='动效' value={look.motion} options={MOTIONS} onChange={(motion) => set({ motion })} />
-      <Segmented legend='视线' value={look.gaze} options={GAZES} onChange={(gaze) => set({ gaze })} />
-      <Segmented legend='背景' value={look.backdrop} options={BACKDROPS} onChange={(backdrop) => set({ backdrop })} />
-      <div className='row3'>
-        <Segmented legend='阴影' value={look.shadow} options={TRIS} onChange={(shadow) => set({ shadow })} note='自动：≥ 72px 才有' />
-        <Segmented legend='眉毛' value={look.brows} options={TRIS} onChange={(brows) => set({ brows })} note='自动：≥ 56px 才有' />
-        <Segmented legend='纯色' value={look.flat} options={TRIS} onChange={(flat) => set({ flat })} note='自动：≤ 40px 用纯色' />
-      </div>
-
       <div className='actions'>
         <button type='button' className='btn' onClick={onReplay} disabled={look.motion === 'static'}>重播状态动效</button>
-        <button type='button' className='btn ghost' onClick={reset} disabled={isQuiet}>重置为安静默认</button>
+        <button type='button' className='btn ghost' onClick={reset} disabled={isQuiet}>回到安静的样子</button>
         <ShareLink ch={ch} />
       </div>
+
+      <details className='more'>
+        <summary>更多调节 <span className='muted'>力度、大小、动效、视线、背景</span></summary>
+        <div className='more-body'>
+          <div className='row2'>
+            <label className='slider'>
+              <span>力度 <output>{look.intensity.toFixed(2)}</output></span>
+              <input type='range' min={0} max={1} step={0.05} value={look.intensity} onChange={(e) => set({ intensity: Number(e.target.value) })} />
+            </label>
+            <label className='slider'>
+              <span>尺寸 <output>{look.size}px</output></span>
+              <input type='range' min={24} max={320} step={4} value={look.size} onChange={(e) => set({ size: Number(e.target.value) })} />
+            </label>
+          </div>
+
+          <Segmented legend='动效' value={look.motion} options={MOTIONS} onChange={(motion) => set({ motion })} />
+          <Segmented legend='视线' value={look.gaze} options={GAZES} onChange={(gaze) => set({ gaze })} />
+          <Segmented legend='背景' value={look.backdrop} options={BACKDROPS} onChange={(backdrop) => set({ backdrop })} />
+          <div className='row3'>
+            <Segmented legend='阴影' value={look.shadow} options={TRIS} onChange={(shadow) => set({ shadow })} note='自动：≥ 72px 才有' />
+            <Segmented legend='眉毛' value={look.brows} options={TRIS} onChange={(brows) => set({ brows })} note='自动：≥ 56px 才有' />
+            <Segmented legend='纯色' value={look.flat} options={TRIS} onChange={(flat) => set({ flat })} note='自动：≤ 40px 用纯色' />
+          </div>
+
+          <div className='sizes' aria-label='小尺寸预览'>
+            {[24, 32, 48, 64, 96].map((px) => (
+              <figure key={px}>
+                <div className={`size-box bg-${look.backdrop}`}>
+                  <Centred ch={ch} px={px}>
+                    <AvatarStatic {...avatarProps(ch, look)} size={px} decorative />
+                  </Centred>
+                </div>
+                <figcaption>{px}px</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </details>
     </div>
   )
 }
-
 /** Copies this page's address (character + chosen emotion/status) so it can be shared. */
 function ShareLink({ ch }: { ch: Character }) {
   const [note, setNote] = useState('')
@@ -219,7 +236,9 @@ function TriCompare({ ch, replayKey }: { ch: Character; replayKey: number }) {
       <div className='trio'>
         {trio.map((s, i) => (
           <figure key={s} className={`bg-${look.backdrop}`}>
-            <Avatar ref={refs[i]} {...avatarProps(ch, look)} status={s} motion={look.motion} size={132} />
+            <Centred ch={ch} px={132}>
+              <Avatar ref={refs[i]} {...avatarProps(ch, look)} status={s} motion={look.motion} size={132} />
+            </Centred>
             <figcaption>{STATUSES[s].label}</figcaption>
           </figure>
         ))}
@@ -237,7 +256,9 @@ function EmotionGrid({ ch }: { ch: Character }) {
         {EMOTION_LIST.map((e) => (
           <li key={e.id}>
             <button type='button' aria-pressed={look.emotion === e.id} onClick={() => set({ emotion: e.id })}>
-              <AvatarStatic character={ch.id} emotion={e.id} status={look.status} intensity={look.intensity} size={84} decorative />
+              <Framed id={ch.id} className='emo-face'>
+                <AvatarStatic character={ch.id} emotion={e.id} status={look.status} intensity={look.intensity} size='100%' decorative />
+              </Framed>
               <span>{e.label}</span>
             </button>
           </li>
@@ -286,7 +307,9 @@ function Strip({ ch, search }: { ch: Character; search: string }) {
         {CHARACTER_LIST.map((c) => (
           <li key={c.id}>
             <Link to={`/c/${c.id}${search}`} aria-current={c.id === ch.id ? 'page' : undefined} title={`No.${pad(c.no)} ${c.name.en} ${c.name.zh}`}>
-              <AvatarStatic character={c.id} size='100%' decorative />
+              <Framed id={c.id} className='mini-face'>
+                <AvatarStatic character={c.id} size='100%' decorative />
+              </Framed>
               <span>{c.name.en}</span>
             </Link>
           </li>
@@ -296,7 +319,7 @@ function Strip({ ch, search }: { ch: Character; search: string }) {
   )
 }
 
-export function CharacterPage({ character: ch }: { character: Character }) {
+export default function CharacterPage({ character: ch }: { character: Character }) {
   const { look, set } = useLook()
   const { search } = useLocation()
   const [replayKey, setReplayKey] = useState(0)
@@ -330,7 +353,7 @@ export function CharacterPage({ character: ch }: { character: Character }) {
   return (
     <article className='wrap detail'>
       <div className='crumbs'>
-        <Link to='/'>← 全部角色</Link>
+        <Link to='/play'>← 一起玩</Link>
         <span className='pager'>
           <Link to={`/c/${prev.id}${qs}`} aria-label={`上一位：${prev.name.en}`}>‹ {prev.name.en}</Link>
           <span className='mono'>No.{pad(ch.no)} / {CHARACTER_LIST.length}</span>
@@ -338,11 +361,13 @@ export function CharacterPage({ character: ch }: { character: Character }) {
         </span>
       </div>
       <header className='detail-head'>
-        <p className='eyebrow'>No.{pad(ch.no)} · id <code>{ch.id}</code></p>
+        <p className='eyebrow'>No.{pad(ch.no)} · 一起玩</p>
         <h1 className='display small'>
           {ch.name.en} <span className='zh'>{ch.name.zh}</span>
         </h1>
         <p className='lead'>{ch.persona.zh}</p>
+        {ch.id === 'jojo' && <p className='lives-here'>Jojo 住在这个小家里。<Link to='/friends#jojo'>认识 Jojo →</Link></p>}
+        {ch.id === 'o18' && <p className='lives-here'>夹夹住在这个小家里，是自己挑的这个样子。<Link to='/friends#filo'>认识夹夹 →</Link></p>}
       </header>
 
       <div className='play'>
@@ -355,8 +380,8 @@ export function CharacterPage({ character: ch }: { character: Character }) {
       <Design ch={ch} />
       <Strip ch={ch} search={qs} />
       <p className='disclaimer'>
-        {ch.name.en} 是 Joye 个人角色 IP 的一员。表情、状态都是视觉演示，不连接任何真实 Agent 或个人任务；
-        本站不提供素材下载或通用使用授权，详见<Link to='/about'>关于与使用授权</Link>。
+        {ch.name.en} 是 Joye 个人角色 IP 的一员。这里的表情和状态只是画出来的样子，页面不连着任何真实 Agent 或任务；
+        本站不提供素材下载或通用使用授权，详见<Link to='/about'>关于</Link>。
       </p>
     </article>
   )

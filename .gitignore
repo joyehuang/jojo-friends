@@ -14,3 +14,4 @@ public/favicon.svg
 .vercel
 .env*
 private-exports
+.ssr
