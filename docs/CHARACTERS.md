@@ -79,10 +79,15 @@ Generated from the registry by `scripts/gen-manifest.ts` — do not edit by hand
 ## No.11 Pocket · 兜兜 — `o05`
 
 - 脸板从口袋里探出一截，总是急着给你看点什么。 / Its plate pokes out of the pocket, always eager to show you something.
-- 造型：靛蓝壳体在后，薄荷色脸板向右探出壳外；脸板右下角是一个更短的圆角小台阶，与主体圆角相接成凹痕；靛蓝眼一细一粗、一字嘴偏右；左上缺口托信号点。
-- Source: `reference/options-20/05.png` (options-20 05), identity mean IoU 0.977
-- Traits: side-by-side eyes (capsule + capsule), capsule mouth, notch -90°, plate poly (overhangs the shell)
-- Cleaned while redrawing: levelled the top edge: the lobe left of the notch sat ~7px lower than the rest of the top
+- 造型：靛蓝壳体是一只矮宽的口袋，只在左侧和底边露出；薄荷脸板像卡片一样从口袋里向右上方探出壳外；一对等大的短豆豆眼、居中短横嘴；口袋左肩缺口托信号点。
+- **Design revision r2** (2026-09-25) — 第 1 版与 Jojo 同一张脸（左上靛蓝框、右下薄荷脸板、一细一粗眼、偏右横嘴），小尺寸下像同一个角色。 / r1 shared Jojo’s face (indigo frame top-left, mint plate bottom-right, thin + thick eyes, offset dash mouth) and read as the same character at icon size.
+  - 壳体：高方块 → 一只矮宽的口袋，只在左侧和底边露出 / shell: tall rounded block → a low, wide pocket that shows only on the left and along the bottom
+  - 脸板：像从口袋里抽出的卡片，向右上方探出（原先只向右探出、与顶边齐平） / plate: overhangs up and to the right like a card pulled out of the pocket (was: overhanging only on the right, flush with the top)
+  - 缺口与信号点：从整只角色的顶边移到口袋左肩，约在三分之一高度 / notch + dot: from the top edge of the whole body to the pocket’s left shoulder, a third of the way down
+  - 眼睛：一细一粗胶囊 → 一对等大的短豆豆眼；嘴从偏右改为居中 / eyes: one thin + one thick capsule → a matched pair of short bean eyes; mouth centred instead of offset right
+- Source (historical reference, the current design departs from it on purpose): `reference/options-20/05.png` (options-20 05); superseded r1: `reference/revisions/o05-r1.svg` — 靛蓝壳体在后，薄荷色脸板向右探出壳外；脸板右下角是一个更短的圆角小台阶，与主体圆角相接成凹痕；靛蓝眼一细一粗、一字嘴偏右；左上缺口托信号点。
+- Traits: side-by-side eyes (capsule + capsule), capsule mouth, notch -90°, plate rect (overhangs the shell)
+- Cleaned while redrawing r1 (superseded): levelled the top edge: the lobe left of the notch sat ~7px lower than the rest of the top
 
 ## No.12 Dudu · 嘟嘟 — `o06`
 
@@ -95,9 +100,12 @@ Generated from the registry by `scripts/gen-manifest.ts` — do not edit by hand
 ## No.13 Dotty · 点点 — `o07`
 
 - 一只眼长、一只眼圆，看什么都像在认真打量。 / One long eye, one round one — everything gets a careful once-over.
-- 造型：薄荷壳体在后、靛蓝脸板贴右下；左眼竖长胶囊、右眼圆点，不对称的眨眼脸；左上缺口托信号点。
-- Source: `reference/options-20/07.png` (options-20 07), identity mean IoU 0.978
-- Traits: side-by-side eyes (capsule + dot), capsule mouth, notch -90°, plate rect
+- 造型：薄荷壳体在后，靛蓝脸板是一个大圆点，偏右下落在壳上，四角露出薄荷色；左眼竖长胶囊、右眼圆点，不对称的打量脸；左上缺口托信号点。
+- **Design revision r2** (2026-09-25) — 第 1 版与眨眨（h05）布局和配色相同（薄荷壳在后、靛蓝方脸板贴右下、左上信号点、左眼竖长），只差一只眼。 / r1 had Zaza’s layout and colours (mint shell behind, square indigo plate bottom-right, dot top-left, long left eye) and differed from it by one eye.
+  - 脸板：与壳右缘、底缘齐平的圆角方块 → 一个大圆点（壳宽 321 中半径 110），偏右下，四周露出薄荷色 / plate: rounded square flush with the shell’s right and bottom edges → a round dot (r110 of the 321 px shell) set low and right, with mint showing all round it
+  - 五官重新排进圆脸板里；圆眼仍是圆眼，长眼仍是长眼 / features re-spaced to sit inside the round plate; the round eye stays round, the long eye stays long
+- Source (historical reference, the current design departs from it on purpose): `reference/options-20/07.png` (options-20 07); superseded r1: `reference/revisions/o07-r1.svg` — 薄荷壳体在后、靛蓝脸板贴右下；左眼竖长胶囊、右眼圆点，不对称的眨眼脸；左上缺口托信号点。
+- Traits: side-by-side eyes (capsule + dot), capsule mouth, notch -90°, plate circle
 
 ## No.14 Vivi · 薇薇 — `o08`
 
@@ -157,11 +165,16 @@ Generated from the registry by `scripts/gen-manifest.ts` — do not edit by hand
 
 ## No.22 Mino · 米诺 — `o16`
 
-- 大大的薄荷脸几乎装满了整个壳，最会表达情绪。 / A big mint face that nearly fills its shell — shows every feeling.
-- 造型：靛蓝壳体只在左侧露出一条，大薄荷脸板占满右下；顶部缺口同时咬进壳和脸板的左上大圆角，托住信号点。
-- Source: `reference/options-20/16.png` (options-20 16), identity mean IoU 0.974
-- Traits: side-by-side eyes (capsule + capsule), capsule mouth, notch -90°, plate rect
-- Cleaned while redrawing: signal dot 27→25 px and raised 2 px, plate bite 48→52 px, so the full-size success pop clears the plate (source ring was too tight)
+- 圆圆的大薄荷脸顶着一顶小壳帽，最会表达情绪。 / A big round mint face under a little shell cap — shows every feeling.
+- 造型：左右对称：靛蓝壳体只在顶上露出一顶圆拱小帽，正中缺口托信号点；宽大的薄荷脸板比壳更宽、下缘圆鼓，像一张圆脸；一对等大的竖长胶囊眼、居中短横嘴。
+- **Design revision r2** (2026-09-25) — 第 1 版与 Jojo 同一张脸（左侧靛蓝条、右下薄荷大脸板、一细一粗眼、偏右横嘴），小尺寸下像同一个角色。 / r1 shared Jojo’s face (indigo strip on the left, mint plate filling the lower right, thin + thick eyes, offset dash mouth) and read as the same character at icon size.
+  - 布局：不对称（左侧露出一条壳）→ 左右对称，壳只在顶上露出一顶圆拱小帽 / layout: asymmetric (shell showing as a strip on the left) → symmetric, the shell shows only as a rounded cap on top
+  - 脸板：比壳更宽、下缘大圆角，是一张略高的圆脸而不是方脸 / plate: wider than the shell with big rounded bottom corners — a round, slightly taller face instead of a square one
+  - 缺口与信号点：从偏左、同时咬进壳和脸板，移到帽顶正中 / notch + dot: from left of centre, biting shell and plate, to dead centre on the crown of the cap
+  - 眼睛：一细一粗胶囊 → 一对等大的竖长胶囊；嘴从偏右改为居中 / eyes: one thin + one thick capsule → a matched pair of tall capsules; mouth centred instead of offset right
+- Source (historical reference, the current design departs from it on purpose): `reference/options-20/16.png` (options-20 16); superseded r1: `reference/revisions/o16-r1.svg` — 靛蓝壳体只在左侧露出一条，大薄荷脸板占满右下；顶部缺口同时咬进壳和脸板的左上大圆角，托住信号点。
+- Traits: side-by-side eyes (capsule + capsule), capsule mouth, notch -90°, plate rect (overhangs the shell)
+- Cleaned while redrawing r1 (superseded): signal dot 27→25 px and raised 2 px, plate bite 48→52 px, so the full-size success pop clears the plate (source ring was too tight)
 
 ## No.23 Wowo · 窝窝 — `o17`
 

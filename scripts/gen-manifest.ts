@@ -5,7 +5,7 @@
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import sharp from 'sharp'
-import { CHARACTER_LIST } from '../src/library'
+import { CHARACTER_LIST, designRevision } from '../src/library'
 import { identity } from './ref/identity'
 
 /** 32 × 32 greyscale thumbnail of the non-background content, for duplicate detection. */
@@ -23,6 +23,7 @@ async function main() {
     if (sha !== ch.source.sha256) throw new Error(`${ch.id}: sha256 mismatch for ${ch.source.file}`)
     thumbs.push(await thumb(ch.source.file))
     const id = await identity(ch)
+    const design = designRevision(ch)
     const e = ch.spec.eyes
     const stacked = Math.abs(e[0].cx - e[1].cx) < Math.max(e[0].w, e[1].w)
     rows.push({
@@ -51,7 +52,19 @@ async function main() {
         palette: { shell: ch.palette.shell, plate: ch.palette.face, ink: ch.palette.ink, mouth: ch.palette.mouth, dot: ch.palette.dot },
       },
       cleanup: ch.cleanup,
-      identity: { meanIoU: id.mean, perColour: id.iou },
+      design: design.fromSource
+        ? { revision: 1, basis: 'redrawn from the source image' }
+        : {
+          revision: design.revision,
+          basis: 'deliberately revised away from the source image; the source stays the historical reference',
+          date: design.date,
+          reason: design.reason,
+          changes: design.changes,
+          previous: design.previous,
+        },
+      // how closely the *current* vector matches the source pixels; for a revised
+      // design a low value is expected and is not a fidelity claim
+      identity: { meanIoU: id.mean, perColour: id.iou, ...(design.fromSource ? {} : { note: `measured on design r${design.revision}, which intentionally departs from the source; not a fidelity score` }) },
     })
   }
   // verification
@@ -74,6 +87,7 @@ async function main() {
       uniqueSha256: shas.size,
       nearestSourcePair: { pair: closest.pair, meanAbsDiff32px: +closest.d.toFixed(2) },
       identityMethod: 'calm vector master rendered in the source framing vs the source pixels; per-colour IoU over the character\'s shell / plate / ink / dot classes',
+      designRevisions: rows.filter((r) => r.design.revision > 1).map((r) => `${r.id} r${r.design.revision}`),
     },
     characters: rows,
   }
@@ -91,9 +105,16 @@ async function main() {
       '',
       `- ${r.persona.zh} / ${r.persona.en}`,
       `- 造型：${r.form}`,
-      `- Source: \`${r.source.file}\` (${r.source.batch} ${r.source.index}), identity mean IoU ${r.identity.meanIoU.toFixed(3)}`,
+      ...(r.design.revision > 1
+        ? [
+          `- **Design revision r${r.design.revision}** (${r.design.date}) — ${r.design.reason!.zh} / ${r.design.reason!.en}`,
+          ...r.design.changes!.map((c) => `  - ${c.zh} / ${c.en}`),
+          `- Source (historical reference, the current design departs from it on purpose): \`${r.source.file}\` (${r.source.batch} ${r.source.index}); superseded r${r.design.previous!.revision}: \`${r.design.previous!.file}\` — ${r.design.previous!.form}`,
+        ]
+        : [`- Source: \`${r.source.file}\` (${r.source.batch} ${r.source.index}), identity mean IoU ${r.identity.meanIoU.toFixed(3)}`]),
       `- Traits: ${r.traits.eyeLayout} eyes (${r.traits.eyes.join(' + ')}), ${r.traits.mouth} mouth, notch ${r.traits.notchDir}°, plate ${r.traits.plate}${r.traits.plateClip === 'overhangs' ? ' (overhangs the shell)' : ''}${r.traits.plateRotate ? `, tilted ${r.traits.plateRotate}°` : ''}`,
       ...(r.cleanup.length ? [`- Cleaned while redrawing: ${r.cleanup.join('; ')}`] : []),
+      ...(r.design.revision > 1 && r.design.previous!.cleanup?.length ? [`- Cleaned while redrawing r${r.design.previous!.revision} (superseded): ${r.design.previous!.cleanup.join('; ')}`] : []),
       '',
     ].join('\n')),
   ].join('\n')

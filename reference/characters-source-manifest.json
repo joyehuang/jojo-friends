@@ -8,7 +8,12 @@
       "pair": "o02/o18",
       "meanAbsDiff32px": 21.12
     },
-    "identityMethod": "calm vector master rendered in the source framing vs the source pixels; per-colour IoU over the character's shell / plate / ink / dot classes"
+    "identityMethod": "calm vector master rendered in the source framing vs the source pixels; per-colour IoU over the character's shell / plate / ink / dot classes",
+    "designRevisions": [
+      "o05 r2",
+      "o07 r2",
+      "o16 r2"
+    ]
   },
   "characters": [
     {
@@ -53,6 +58,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9858,
         "perColour": {
@@ -102,6 +111,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9752,
         "perColour": {
@@ -152,6 +165,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9785,
         "perColour": {
@@ -202,6 +219,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.972,
         "perColour": {
@@ -254,6 +275,10 @@
       "cleanup": [
         "plate corner bitten by an r48 circle around the dot instead of the shell notch (r37.5), leaving a thin mint rim, so the working ring and success badge clear the plate"
       ],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9705,
         "perColour": {
@@ -303,6 +328,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.954,
         "perColour": {
@@ -352,6 +381,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9786,
         "perColour": {
@@ -401,6 +434,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9722,
         "perColour": {
@@ -453,6 +490,10 @@
       "cleanup": [
         "levelled the top edge: the lobe right of the notch sat ~5px lower than the rest of the top"
       ],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9766,
         "perColour": {
@@ -503,6 +544,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9677,
         "perColour": {
@@ -530,10 +575,10 @@
         "sizePx": 512,
         "sha256": "99511e487be596386db51880f93b67470ace145cba43b8641d1717c3a7edf9fc"
       },
-      "form": "靛蓝壳体在后，薄荷色脸板向右探出壳外；脸板右下角是一个更短的圆角小台阶，与主体圆角相接成凹痕；靛蓝眼一细一粗、一字嘴偏右；左上缺口托信号点。",
+      "form": "靛蓝壳体是一只矮宽的口袋，只在左侧和底边露出；薄荷脸板像卡片一样从口袋里向右上方探出壳外；一对等大的短豆豆眼、居中短横嘴；口袋左肩缺口托信号点。",
       "traits": {
         "shell": "rect",
-        "plate": "poly",
+        "plate": "rect",
         "plateClip": "overhangs",
         "plateRotate": 0,
         "notchDir": -90,
@@ -551,16 +596,51 @@
           "dot": "#fe6c49"
         }
       },
-      "cleanup": [
-        "levelled the top edge: the lobe left of the notch sat ~7px lower than the rest of the top"
-      ],
-      "identity": {
-        "meanIoU": 0.9772,
-        "perColour": {
-          "#cdf4e9": 0.9863,
-          "#2c3371": 0.9662,
-          "#fe6c49": 0.9438
+      "cleanup": [],
+      "design": {
+        "revision": 2,
+        "basis": "deliberately revised away from the source image; the source stays the historical reference",
+        "date": "2026-09-25",
+        "reason": {
+          "en": "r1 shared Jojo’s face (indigo frame top-left, mint plate bottom-right, thin + thick eyes, offset dash mouth) and read as the same character at icon size.",
+          "zh": "第 1 版与 Jojo 同一张脸（左上靛蓝框、右下薄荷脸板、一细一粗眼、偏右横嘴），小尺寸下像同一个角色。"
+        },
+        "changes": [
+          {
+            "en": "shell: tall rounded block → a low, wide pocket that shows only on the left and along the bottom",
+            "zh": "壳体：高方块 → 一只矮宽的口袋，只在左侧和底边露出"
+          },
+          {
+            "en": "plate: overhangs up and to the right like a card pulled out of the pocket (was: overhanging only on the right, flush with the top)",
+            "zh": "脸板：像从口袋里抽出的卡片，向右上方探出（原先只向右探出、与顶边齐平）"
+          },
+          {
+            "en": "notch + dot: from the top edge of the whole body to the pocket’s left shoulder, a third of the way down",
+            "zh": "缺口与信号点：从整只角色的顶边移到口袋左肩，约在三分之一高度"
+          },
+          {
+            "en": "eyes: one thin + one thick capsule → a matched pair of short bean eyes; mouth centred instead of offset right",
+            "zh": "眼睛：一细一粗胶囊 → 一对等大的短豆豆眼；嘴从偏右改为居中"
+          }
+        ],
+        "previous": {
+          "revision": 1,
+          "file": "reference/revisions/o05-r1.svg",
+          "sha256": "4d210a4874f11869392dd792577ad3a8801cf0e3bacbe6e2b5ce0a47d92f37f4",
+          "form": "靛蓝壳体在后，薄荷色脸板向右探出壳外；脸板右下角是一个更短的圆角小台阶，与主体圆角相接成凹痕；靛蓝眼一细一粗、一字嘴偏右；左上缺口托信号点。",
+          "cleanup": [
+            "levelled the top edge: the lobe left of the notch sat ~7px lower than the rest of the top"
+          ]
         }
+      },
+      "identity": {
+        "meanIoU": 0.3251,
+        "perColour": {
+          "#cdf4e9": 0.4818,
+          "#2c3371": 0.1243,
+          "#fe6c49": 0
+        },
+        "note": "measured on design r2, which intentionally departs from the source; not a fidelity score"
       }
     },
     {
@@ -605,6 +685,10 @@
       "cleanup": [
         "straightened the plate’s left edge: it leaned out ~4px towards the bottom while the right edge stayed vertical"
       ],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9599,
         "perColour": {
@@ -632,10 +716,10 @@
         "sizePx": 512,
         "sha256": "4d15ef7e6fb1974305b0f40d2c5ae26050719848d9a7152ac4394c7f62779fd0"
       },
-      "form": "薄荷壳体在后、靛蓝脸板贴右下；左眼竖长胶囊、右眼圆点，不对称的眨眼脸；左上缺口托信号点。",
+      "form": "薄荷壳体在后，靛蓝脸板是一个大圆点，偏右下落在壳上，四角露出薄荷色；左眼竖长胶囊、右眼圆点，不对称的打量脸；左上缺口托信号点。",
       "traits": {
         "shell": "rect",
-        "plate": "rect",
+        "plate": "circle",
         "plateClip": "shell",
         "plateRotate": 0,
         "notchDir": -90,
@@ -654,13 +738,39 @@
         }
       },
       "cleanup": [],
-      "identity": {
-        "meanIoU": 0.9779,
-        "perColour": {
-          "#2d2e71": 0.9867,
-          "#c9f1e5": 0.967,
-          "#fe6d4a": 0.9624
+      "design": {
+        "revision": 2,
+        "basis": "deliberately revised away from the source image; the source stays the historical reference",
+        "date": "2026-09-25",
+        "reason": {
+          "en": "r1 had Zaza’s layout and colours (mint shell behind, square indigo plate bottom-right, dot top-left, long left eye) and differed from it by one eye.",
+          "zh": "第 1 版与眨眨（h05）布局和配色相同（薄荷壳在后、靛蓝方脸板贴右下、左上信号点、左眼竖长），只差一只眼。"
+        },
+        "changes": [
+          {
+            "en": "plate: rounded square flush with the shell’s right and bottom edges → a round dot (r110 of the 321 px shell) set low and right, with mint showing all round it",
+            "zh": "脸板：与壳右缘、底缘齐平的圆角方块 → 一个大圆点（壳宽 321 中半径 110），偏右下，四周露出薄荷色"
+          },
+          {
+            "en": "features re-spaced to sit inside the round plate; the round eye stays round, the long eye stays long",
+            "zh": "五官重新排进圆脸板里；圆眼仍是圆眼，长眼仍是长眼"
+          }
+        ],
+        "previous": {
+          "revision": 1,
+          "file": "reference/revisions/o07-r1.svg",
+          "sha256": "1c72e8e9acb0552c80dbbe2de1be2c97a25e183b99658fd9e7344a4b2d503ea0",
+          "form": "薄荷壳体在后、靛蓝脸板贴右下；左眼竖长胶囊、右眼圆点，不对称的眨眼脸；左上缺口托信号点。"
         }
+      },
+      "identity": {
+        "meanIoU": 0.509,
+        "perColour": {
+          "#2d2e71": 0.477,
+          "#c9f1e5": 0.5278,
+          "#fe6d4a": 0.9624
+        },
+        "note": "measured on design r2, which intentionally departs from the source; not a fidelity score"
       }
     },
     {
@@ -703,6 +813,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9803,
         "perColour": {
@@ -752,6 +866,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9669,
         "perColour": {
@@ -802,6 +920,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9707,
         "perColour": {
@@ -852,6 +974,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9768,
         "perColour": {
@@ -901,6 +1027,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.979,
         "perColour": {
@@ -951,6 +1081,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9723,
         "perColour": {
@@ -1001,6 +1135,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9817,
         "perColour": {
@@ -1051,6 +1189,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9837,
         "perColour": {
@@ -1069,8 +1211,8 @@
         "zh": "米诺"
       },
       "persona": {
-        "zh": "大大的薄荷脸几乎装满了整个壳，最会表达情绪。",
-        "en": "A big mint face that nearly fills its shell — shows every feeling."
+        "zh": "圆圆的大薄荷脸顶着一顶小壳帽，最会表达情绪。",
+        "en": "A big round mint face under a little shell cap — shows every feeling."
       },
       "source": {
         "file": "reference/options-20/16.png",
@@ -1079,11 +1221,11 @@
         "sizePx": 512,
         "sha256": "cee4135d0681431e3e3030800dbd03628719cfd91077955fa4175bfa4449cea2"
       },
-      "form": "靛蓝壳体只在左侧露出一条，大薄荷脸板占满右下；顶部缺口同时咬进壳和脸板的左上大圆角，托住信号点。",
+      "form": "左右对称：靛蓝壳体只在顶上露出一顶圆拱小帽，正中缺口托信号点；宽大的薄荷脸板比壳更宽、下缘圆鼓，像一张圆脸；一对等大的竖长胶囊眼、居中短横嘴。",
       "traits": {
         "shell": "rect",
         "plate": "rect",
-        "plateClip": "shell",
+        "plateClip": "overhangs",
         "plateRotate": 0,
         "notchDir": -90,
         "eyeLayout": "side-by-side",
@@ -1100,16 +1242,51 @@
           "dot": "#fe6946"
         }
       },
-      "cleanup": [
-        "signal dot 27→25 px and raised 2 px, plate bite 48→52 px, so the full-size success pop clears the plate (source ring was too tight)"
-      ],
-      "identity": {
-        "meanIoU": 0.9739,
-        "perColour": {
-          "#cbf2e7": 0.984,
-          "#262d6e": 0.9656,
-          "#fe6946": 0.8135
+      "cleanup": [],
+      "design": {
+        "revision": 2,
+        "basis": "deliberately revised away from the source image; the source stays the historical reference",
+        "date": "2026-09-25",
+        "reason": {
+          "en": "r1 shared Jojo’s face (indigo strip on the left, mint plate filling the lower right, thin + thick eyes, offset dash mouth) and read as the same character at icon size.",
+          "zh": "第 1 版与 Jojo 同一张脸（左侧靛蓝条、右下薄荷大脸板、一细一粗眼、偏右横嘴），小尺寸下像同一个角色。"
+        },
+        "changes": [
+          {
+            "en": "layout: asymmetric (shell showing as a strip on the left) → symmetric, the shell shows only as a rounded cap on top",
+            "zh": "布局：不对称（左侧露出一条壳）→ 左右对称，壳只在顶上露出一顶圆拱小帽"
+          },
+          {
+            "en": "plate: wider than the shell with big rounded bottom corners — a round, slightly taller face instead of a square one",
+            "zh": "脸板：比壳更宽、下缘大圆角，是一张略高的圆脸而不是方脸"
+          },
+          {
+            "en": "notch + dot: from left of centre, biting shell and plate, to dead centre on the crown of the cap",
+            "zh": "缺口与信号点：从偏左、同时咬进壳和脸板，移到帽顶正中"
+          },
+          {
+            "en": "eyes: one thin + one thick capsule → a matched pair of tall capsules; mouth centred instead of offset right",
+            "zh": "眼睛：一细一粗胶囊 → 一对等大的竖长胶囊；嘴从偏右改为居中"
+          }
+        ],
+        "previous": {
+          "revision": 1,
+          "file": "reference/revisions/o16-r1.svg",
+          "sha256": "e945825f427fdc9ce84cca62f12060e2c5cb4a135dc94999fef9335097c78d70",
+          "form": "靛蓝壳体只在左侧露出一条，大薄荷脸板占满右下；顶部缺口同时咬进壳和脸板的左上大圆角，托住信号点。",
+          "cleanup": [
+            "signal dot 27→25 px and raised 2 px, plate bite 48→52 px, so the full-size success pop clears the plate (source ring was too tight)"
+          ]
         }
+      },
+      "identity": {
+        "meanIoU": 0.3652,
+        "perColour": {
+          "#cbf2e7": 0.5096,
+          "#262d6e": 0.1322,
+          "#fe6946": 0
+        },
+        "note": "measured on design r2, which intentionally departs from the source; not a fidelity score"
       }
     },
     {
@@ -1152,6 +1329,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9771,
         "perColour": {
@@ -1201,6 +1382,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9776,
         "perColour": {
@@ -1253,6 +1438,10 @@
       "cleanup": [
         "notch 44→48 px and dot raised 2 px so the full-size success pop clears the plate"
       ],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9738,
         "perColour": {
@@ -1303,6 +1492,10 @@
         }
       },
       "cleanup": [],
+      "design": {
+        "revision": 1,
+        "basis": "redrawn from the source image"
+      },
       "identity": {
         "meanIoU": 0.9698,
         "perColour": {
