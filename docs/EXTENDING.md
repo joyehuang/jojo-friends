@@ -70,4 +70,4 @@ Keep the `id` and names. Put a render of the current design in `reference/revisi
 
 ## 6. Ship
 
-`pnpm build` regenerates every download (SVG / PNG / WebP / kits) from the component output and builds the site.
+`pnpm build` builds the public showcase (no downloads; the build fails if any kit, source art, master or source map would be published). `pnpm export:private` regenerates the full asset kit (SVG / PNG / WebP / zips) into the gitignored `private-exports/` for private use.

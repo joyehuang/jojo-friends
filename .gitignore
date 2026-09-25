@@ -13,3 +13,4 @@ public/reference
 public/favicon.svg
 .vercel
 .env*
+private-exports

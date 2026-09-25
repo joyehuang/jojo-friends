@@ -134,7 +134,7 @@ All explicit props win over `auto`.
 
 ## 8. Static export
 
-`<AvatarStatic>` and `renderSvg()` render exactly the frame the animated component paints first (`staticFrame`), with no effects — usable in SSR, emails, icons and asset pipelines. `scripts/export-site-assets.tsx` uses the same path for every downloadable file.
+`<AvatarStatic>` and `renderSvg()` render exactly the frame the animated component paints first (`staticFrame`), with no effects — usable in SSR, emails, icons and asset pipelines. `scripts/export-private-kit.tsx` (`pnpm export:private`, local only) uses the same path for every file in the private asset kit; the public site offers no downloads.
 
 ## 9. Accessibility
 

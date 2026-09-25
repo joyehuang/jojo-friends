@@ -4,10 +4,8 @@ import {
   designRevision, isEmotionId, isStatusId,
   type Character, type EmotionGroup, type JojoHandle, type MotionPref, type StatusId,
 } from '../../library'
-import { prebuilt, rasterise, saveBlob } from '../downloads'
 import { QUIET, tri, useLook, type Backdrop, type GazePref, type Look, type Tri } from '../look'
 import { Link, navigate, useLocation } from '../router'
-import { REPO_BLOB } from '../site-config'
 
 const pad = (n: number) => String(n).padStart(2, '0')
 const GROUPS: EmotionGroup[] = ['daily', 'bright', 'swing', 'blue']
@@ -170,8 +168,32 @@ function Controls({ ch, onReplay }: { ch: Character; onReplay: () => void }) {
       <div className='actions'>
         <button type='button' className='btn' onClick={onReplay} disabled={look.motion === 'static'}>重播状态动效</button>
         <button type='button' className='btn ghost' onClick={reset} disabled={isQuiet}>重置为安静默认</button>
+        <ShareLink ch={ch} />
       </div>
     </div>
+  )
+}
+
+/** Copies this page's address (character + chosen emotion/status) so it can be shared. */
+function ShareLink({ ch }: { ch: Character }) {
+  const [note, setNote] = useState('')
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined)
+  useEffect(() => () => clearTimeout(timer.current), [])
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(location.href)
+      setNote('链接已复制，打开后会看到同样的表情和状态')
+    } catch {
+      setNote('无法自动复制，请直接复制地址栏里的链接')
+    }
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => setNote(''), 2400)
+  }
+  return (
+    <>
+      <button type='button' className='btn ghost' onClick={copy} aria-label={`复制 ${ch.name.en} 当前表情与状态的分享链接`}>复制分享链接</button>
+      <span className='seg-note share-note' role='status'>{note}</span>
+    </>
   )
 }
 
@@ -225,173 +247,33 @@ function EmotionGrid({ ch }: { ch: Character }) {
   )
 }
 
-function Downloads({ ch }: { ch: Character }) {
-  const { look } = useLook()
-  const [note, setNote] = useState('')
-  const base = `${ch.id}-${look.emotion}-${look.status}`
-  // the SVG renderer (react-dom/server) is only loaded when someone downloads
-  const svg = async () => (await import('../exporter')).poseSvg({ ...avatarProps(ch, look), size: 512, decorative: false })
-  const raster = async (type: 'image/png' | 'image/webp') => {
-    setNote('正在生成…')
-    const blob = await rasterise(await svg(), type, 1024)
-    if (!blob) {
-      setNote(type === 'image/webp' ? '这个浏览器不能在本地编码 WebP，请用下方预生成的 WebP 或改下 PNG。' : '生成失败，请改用 SVG。')
-      return
-    }
-    saveBlob(blob, `${base}.${type === 'image/png' ? 'png' : 'webp'}`)
-    setNote('')
-  }
-  return (
-    <section className='panel' aria-labelledby='dl-title'>
-      <h2 id='dl-title'>下载</h2>
-      <div className='dl-group'>
-        <h3>当前姿态 <span className='muted'>{EMOTIONS[look.emotion].label} · {STATUSES[look.status].label}</span></h3>
-        <div className='dl-row'>
-          <button type='button' className='btn' onClick={async () => saveBlob(await svg(), `${base}.svg`)}>SVG</button>
-          <button type='button' className='btn' onClick={() => raster('image/png')}>透明 PNG · 1024</button>
-          <button type='button' className='btn' onClick={() => raster('image/webp')}>WebP · 1024</button>
-        </div>
-        <p className='seg-note' aria-live='polite'>{note || '由组件实时导出的静态帧，与页面上选中的角色、表情和状态一致。'}</p>
-      </div>
-      <div className='dl-group'>
-        <h3>{ch.name.en} 预生成素材</h3>
-        <div className='dl-row'>
-          <a className='btn ghost' href={prebuilt.master(ch.id)} download>平静 SVG</a>
-          <a className='btn ghost' href={prebuilt.png(ch.id)} download>PNG 512</a>
-          <a className='btn ghost' href={prebuilt.webp(ch.id)} download>WebP 512</a>
-          <a className='btn ghost' href={prebuilt.sheet(ch.id)} download>16 表情联系表 SVG</a>
-          <a className='btn ghost' href={prebuilt.kit(ch.id)} download>角色素材包 .zip</a>
-        </div>
-      </div>
-      <div className='dl-group'>
-        <h3>整个家族</h3>
-        <div className='dl-row'>
-          <a className='btn ghost' href={prebuilt.family} download>26 位全家素材包 .zip</a>
-        </div>
-        <p className='seg-note'>素材包含每位角色 16 种表情 × 6 种状态的 SVG、平静姿态 PNG/WebP 与联系表。角色形象的使用授权尚待确认。</p>
-      </div>
-    </section>
-  )
-}
-
-function snippet(ch: Character, look: Look) {
-  const lines = [`  character="${ch.id}"`]
-  if (look.emotion !== QUIET.emotion) lines.push(`  emotion="${look.emotion}"`)
-  if (look.status !== QUIET.status) lines.push(`  status="${look.status}"`)
-  if (look.intensity !== QUIET.intensity) lines.push(`  intensity={${look.intensity}}`)
-  if (look.motion !== QUIET.motion) lines.push(`  motion="${look.motion}"`)
-  if (look.gaze !== QUIET.gaze) lines.push(`  gaze="${look.gaze}"`)
-  lines.push(`  size={${Math.min(look.size, 96)}}`)
-  for (const k of ['shadow', 'brows', 'flat'] as const) if (look[k] !== 'auto') lines.push(`  ${k}={${look[k] === 'on'}}`)
-  return [
-    `// 从仓库复制 src/library 目录到你的项目（需要 React 19+；尚未发布到 npm）`,
-    `import { Avatar } from './library'`,
-    ``,
-    `<Avatar`,
-    ...lines,
-    `/>`,
-  ].join('\n')
-}
-
-function UseInReact({ ch }: { ch: Character }) {
-  const { look } = useLook()
-  const [copied, setCopied] = useState(false)
-  const code = snippet(ch, look)
-  return (
-    <section className='panel' aria-labelledby='code-title'>
-      <div className='section-head'>
-        <h2 id='code-title'>在 React 里使用</h2>
-        <button
-          type='button'
-          className='btn small'
-          onClick={async () => {
-            try {
-              await navigator.clipboard.writeText(code)
-              setCopied(true)
-              setTimeout(() => setCopied(false), 1600)
-            } catch {
-              setCopied(false)
-            }
-          }}
-        >
-          {copied ? '已复制' : '复制代码'}
-        </button>
-      </div>
-      <pre className='code'><code>{code}</code></pre>
-      <p className='seg-note'>
-        代码随上面的选择变化。静态场景可用 <code>&lt;AvatarStatic&gt;</code> 或 <code>renderSvg()</code>（返回 SVG 字符串，SSR / Node 可用）；
-        动画实例用 <code>ref.poke()</code> 戳一下、<code>ref.replayStatus()</code> 重播状态。详见 <a href={`${REPO_BLOB}/docs/API.md`} rel='noopener'>API 文档</a>。
-      </p>
-    </section>
-  )
-}
-
-function About({ ch }: { ch: Character }) {
+/** What the character looks like, for viewers: shape, colours and design version. */
+function Design({ ch }: { ch: Character }) {
   const C = ch.palette
   const swatches: Array<[string, string]> = [['壳体', C.shell], ['脸板', C.face], ['五官', C.ink], ['信号点', C.dot]]
   if (C.mouth !== C.ink) swatches.splice(3, 0, ['嘴', C.mouth])
   const d = designRevision(ch)
-  const prev = d.previous
   return (
     <section className='panel about' aria-labelledby='about-title'>
-      <h2 id='about-title'>{d.fromSource ? '原画与造型' : '原画、设计修订与造型'}</h2>
+      <h2 id='about-title'>造型</h2>
       {!d.fromSource && (
         <div className='revision-note' data-design-revision={d.revision}>
           <p>
             <strong>当前是第 {d.revision} 版设计</strong>（{d.date} 修订）。{d.reason!.zh}
-            下面的 AI 生图只作为<strong>历史来源</strong>保留，当前成品有意与它不同。
           </p>
           <ul>{d.changes.map((c) => <li key={c.en}>{c.zh}</li>)}</ul>
         </div>
       )}
-      <div className={d.fromSource ? 'about-grid' : 'about-grid revised'}>
-        {d.fromSource ? (
-          <figure className='source'>
-            <img src={`/${ch.source.file}`} alt={`${ch.name.en} 的 AI 生图原画`} width={256} height={256} loading='lazy' />
-            <figcaption>AI 生图原画（{ch.source.batch} · {ch.source.index}），矢量母版按它重建</figcaption>
-          </figure>
-        ) : (
-          <div className='revision-figs'>
-            <figure className='source current'>
-              <AvatarStatic character={ch.id} size='100%' title={`${ch.name.en} 当前设计（第 ${d.revision} 版）`} />
-              <figcaption><strong>当前设计 · 第 {d.revision} 版</strong></figcaption>
-            </figure>
-            <figure className='source superseded'>
-              <img src={`/${prev!.file}`} alt={`${ch.name.en} 第 ${prev!.revision} 版设计（已替换）`} width={256} height={256} loading='lazy' />
-              <figcaption>第 {prev!.revision} 版（按原画重建，已替换）</figcaption>
-            </figure>
-            <figure className='source original'>
-              <img src={`/${ch.source.file}`} alt={`${ch.name.en} 的原始 AI 生图参考`} width={256} height={256} loading='lazy' />
-              <figcaption>原始 AI 生图参考（{ch.source.batch} · {ch.source.index}），历史来源，不是当前成品</figcaption>
-            </figure>
-          </div>
-        )}
-        <div>
-          <p className='prose'>{ch.form}</p>
-          <ul className='swatches' aria-label='调色'>
-            {swatches.map(([n, c]) => (
-              <li key={n}><span style={{ background: c }} aria-hidden='true' />{n} <code>{c}</code></li>
-            ))}
-          </ul>
-          <dl className='meta'>
-            <dt>稳定 id</dt><dd><code>{ch.id}</code></dd>
-            <dt>设计版本</dt><dd>{d.fromSource ? '第 1 版（按原画重建）' : `第 ${d.revision} 版（${d.date}，有意偏离原画）`}</dd>
-            <dt>{d.fromSource ? '来源' : '原画来源'}</dt><dd><code>{ch.source.file}</code></dd>
-            <dt>{d.fromSource ? 'sha256' : '原画 sha256'}</dt><dd><code className='hash'>{ch.source.sha256}</code></dd>
-            {prev && (
-              <>
-                <dt>第 {prev.revision} 版</dt><dd><code>{prev.file}</code></dd>
-              </>
-            )}
-          </dl>
-          {ch.cleanup.length > 0 && (
-            <>
-              <p className='muted small'>重建时克制清理的生图瑕疵：</p>
-              <ul className='cleanup'>{ch.cleanup.map((c) => <li key={c}>{c}</li>)}</ul>
-            </>
-          )}
-        </div>
-      </div>
+      <p className='prose'>{ch.form}</p>
+      <ul className='swatches' aria-label='调色'>
+        {swatches.map(([n, c]) => (
+          <li key={n}><span style={{ background: c }} aria-hidden='true' />{n} <code>{c}</code></li>
+        ))}
+      </ul>
+      <dl className='meta'>
+        <dt>编号</dt><dd>No.{pad(ch.no)}</dd>
+        <dt>设计版本</dt><dd>{d.fromSource ? '第 1 版' : `第 ${d.revision} 版（${d.date}）`}</dd>
+      </dl>
     </section>
   )
 }
@@ -470,11 +352,12 @@ export function CharacterPage({ character: ch }: { character: Character }) {
 
       <TriCompare ch={ch} replayKey={replayKey} />
       <EmotionGrid ch={ch} />
-      <Downloads ch={ch} />
-      <UseInReact ch={ch} />
-      <About ch={ch} />
+      <Design ch={ch} />
       <Strip ch={ch} search={qs} />
-      <p className='disclaimer'>这是 UI 角色组件与业务状态的展示：表情、状态都是视觉演示，不连接任何真实 Agent 或个人任务。</p>
+      <p className='disclaimer'>
+        {ch.name.en} 是 Joye 个人角色 IP 的一员。表情、状态都是视觉演示，不连接任何真实 Agent 或个人任务；
+        本站不提供素材下载或通用使用授权，详见<Link to='/about'>关于与使用授权</Link>。
+      </p>
     </article>
   )
 }

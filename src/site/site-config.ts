@@ -1,2 +1,2 @@
-export const REPO_URL = 'https://github.com/joyehuang/jojo-friends'
-export const REPO_BLOB = `${REPO_URL}/blob/main`
+/** Joye's public blog and its contact page: the only way to ask about using the characters. */
+export const AUTHOR = { name: 'Joye', url: 'https://www.joyehuang.me', contact: 'https://www.joyehuang.me/contact' }

@@ -1,23 +1,24 @@
-// Builds every downloadable file the site links to, from the real component
-// output, into public/ (served as-is by Vite, copied to dist/):
-//   public/downloads/<id>/<id>.svg              calm master (512, with shadow)
-//   public/downloads/<id>/<id>-512.png|.webp     transparent raster of the same
-//   public/downloads/<id>/<id>-emotions.svg      16-emotion contact sheet (vector)
-//   public/downloads/<id>/<id>-kit.zip           all 16 emotions × 6 statuses as SVG + the above
-//   public/downloads/jojo-friends-kit.zip        the whole family + manifest
-//   public/reference/…                           the AI-generated source art (shown on each page)
-//   public/favicon.svg
-// Runs in `pnpm build`, so a deployment always ships assets from its own commit.
+// PRIVATE, local-only: builds the full asset kit from the real component output
+// into private-exports/ (gitignored, outside public/, so Vite never copies it
+// into the public site build):
+//   private-exports/<id>/<id>.svg              calm master (512, with shadow)
+//   private-exports/<id>/<id>-512.png|.webp     transparent raster of the same
+//   private-exports/<id>/<id>-emotions.svg      16-emotion contact sheet (vector)
+//   private-exports/<id>/<id>-kit.zip           all 16 emotions × 6 statuses as SVG + the above
+//   private-exports/jojo-friends-kit.zip        the whole family + manifest
+// The public showcase no longer offers downloads; run this only when Joye needs
+// the files locally:  pnpm export:private
+// It is NOT part of `pnpm build` (scripts/site-public-assets.tsx is).
 import { Resvg } from '@resvg/resvg-js'
 import { strToU8, zipSync, type Zippable } from 'fflate'
-import { copyFileSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
-import { dirname, join } from 'node:path'
+import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { renderToStaticMarkup } from 'react-dom/server'
 import sharp from 'sharp'
 import { AvatarStatic, CHARACTER_LIST, designRevision, EMOTION_LIST, STATUS_LIST, type Character } from '../src/library'
 import { renderSvg } from '../src/library/render'
 
-const OUT = 'public/downloads'
+const OUT = 'private-exports'
 const XML = '<?xml version="1.0" encoding="UTF-8"?>\n'
 
 function png(svg: string, px: number) {
@@ -49,13 +50,11 @@ export function emotionSheetSvg(ch: Character) {
   )
 }
 
-const LICENSE_NOTE = `Jojo & Friends — asset kit
-These files are exported from the Jojo & Friends React/SVG components.
-The character designs are shown publicly for review; usage rights for the
-characters/mascots have NOT been granted yet (no licence is given here) and
-no trademark search has been done. Source art was AI-generated (ChatGPT image
+const LICENSE_NOTE = `Jojo & Friends — private asset kit
+Joye's personal character IP. Exported locally from the Jojo & Friends
+React/SVG components for private use; not for redistribution. No licence is
+granted by these files. Source art was AI-generated (ChatGPT image
 generation) and redrawn as layered vectors.
-Repository: https://github.com/joyehuang/jojo-friends
 `
 
 async function main() {
@@ -107,19 +106,7 @@ async function main() {
   family['manifest.json'] = strToU8(JSON.stringify(manifest, null, 1))
   writeFileSync(join(OUT, 'jojo-friends-kit.zip'), zipSync(family, { level: 9 }))
 
-  // reference art for each character page
-  rmSync('public/reference', { recursive: true, force: true })
-  // plus the superseded design of every revised character (shown as history, never as the current design)
-  for (const ch of CHARACTER_LIST) {
-    for (const f of [ch.source.file, designRevision(ch).previous?.file]) {
-      if (!f) continue
-      mkdirSync(dirname(join('public', f)), { recursive: true })
-      copyFileSync(f, join('public', f))
-    }
-  }
-
-  writeFileSync('public/favicon.svg', renderSvg({ character: 'jojo', size: 64, shadow: false, flat: true, framing: 'tight', decorative: true }))
-  console.log(`assets: ${CHARACTER_LIST.length} characters → ${OUT}`)
+  console.log(`private kit: ${CHARACTER_LIST.length} characters → ${OUT}/ (local only, never published)`)
 }
 
 main().catch((e) => {

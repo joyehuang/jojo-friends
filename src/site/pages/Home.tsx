@@ -75,7 +75,7 @@ export function Home() {
     <>
       <section className='hero wrap'>
         <div className='hero-copy'>
-          <p className='eyebrow'>A family of 26 UI characters · 一套 26 位的角色家族</p>
+          <p className='eyebrow'>A family of 26 characters · 26 位角色的家族</p>
           <h1 className='display'>
             Jojo <em>&amp;</em> Friends
           </h1>
@@ -87,9 +87,8 @@ export function Home() {
             <li><b>{CHARACTER_LIST.length}</b> 位角色</li>
             <li><b>{EMOTION_IDS.length}</b> 种表情</li>
             <li><b>{STATUS_IDS.length}</b> 种业务状态</li>
-            <li><b>SVG</b> 分层矢量 · React</li>
           </ul>
-          <p className='hero-note'>这里是 UI 角色组件的展示，不连接任何真实 Agent 或任务；点开任意一位即可试玩全部表情与状态。</p>
+          <p className='hero-note'>这里是 Joye 个人角色 IP 的展厅，不连接任何真实 Agent 或任务；点开任意一位即可试玩全部表情与状态。</p>
         </div>
         <FamilyPhoto />
       </section>
