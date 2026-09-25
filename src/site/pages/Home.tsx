@@ -1,155 +1,150 @@
-import { useMemo, useState } from 'react'
-import {
-  Avatar, AvatarStatic, CHARACTER_LIST, EMOTIONS, EMOTION_IDS, STATUS_IDS,
-  type Character, type EmotionId,
-} from '../../library'
-import { Link, navigate } from '../router'
+import { useRef, useState } from 'react'
+import { Avatar, AvatarStatic, CHARACTER_LIST, type EmotionId, type JojoHandle } from '../../library'
+import { STORIES, type Story } from '../content/stories'
+import { Faces, Framed, StoryCard } from '../parts'
+import { Link } from '../router'
 
-const pad = (n: number) => String(n).padStart(2, '0')
-
-export function matches(c: Character, q: string) {
-  const s = q.trim().toLowerCase().replace(/^no\.?\s*|^#/, '')
-  if (!s) return true
-  if (/^\d+$/.test(s)) return c.no === Number(s)
-  return c.id.includes(s) || c.name.en.toLowerCase().includes(s) || c.name.zh.includes(q.trim())
-}
-
-/** Everyone together, like a class photo: all static except Jojo in the front row. */
-function FamilyPhoto() {
-  const rows = [CHARACTER_LIST.slice(17, 26), CHARACTER_LIST.slice(8, 17), CHARACTER_LIST.slice(1, 8)]
+/**
+ * The house: a few ink lines, Jojo in the doorway (the only thing that moves
+ * on its own: blinking, breathing, glancing at your pointer), Filo at the
+ * window, and today's note pinned outside.
+ */
+function HouseScene({ latest }: { latest: Story }) {
+  const jojo = useRef<JojoHandle>(null)
+  const [filoHi, setFiloHi] = useState(false)
   return (
-    <div className='photo' role='group' aria-label='26 位角色合影'>
-      {rows.map((row, r) => (
-        <div className={`photo-row r${r}`} key={r}>
-          {row.map((c, i) => (
-            <Link key={c.id} to={`/c/${c.id}`} className='photo-member' style={{ ['--i' as string]: i }} title={`No.${pad(c.no)} ${c.name.en} ${c.name.zh}`}>
-              <AvatarStatic character={c.id} size='100%' decorative />
-            </Link>
-          ))}
-          {r === 2 && (
-            <Link to='/c/jojo' className='photo-member lead' title='No.01 Jojo'>
-              <Avatar character='jojo' size='100%' title='Jojo：平静' />
-            </Link>
-          )}
+    <div className='house-wrap'>
+      <div className='house'>
+        <svg className='house-lines' viewBox='0 0 640 500' aria-hidden='true'>
+          <path className='h-wall' d='M60 452 V218 L260 74 L460 218 V452' />
+          <path className='h-antenna' d='M260 74 V44' />
+          <circle className='h-dot' cx='260' cy='36' r='9' />
+          <path className='h-door' d='M110 452 V304 Q110 266 148 266 H232 Q270 266 270 304 V452' />
+          <rect className='h-plate' x='166' y='236' width='48' height='20' rx='5' />
+          <text className='h-plate-no' x='190' y='250.5' textAnchor='middle'>01</text>
+          <rect className='h-window' x='312' y='276' width='112' height='94' rx='22' />
+          <path className='h-sill' d='M302 370 H434' />
+          <path className='h-post' d='M545 452 V300' />
+          <path className='h-ground' d='M16 452 H624' />
+          <path className='h-mat' d='M128 461 H252' />
+        </svg>
+        <button type='button' className='house-jojo' onClick={() => jojo.current?.poke()} aria-label='戳一下 Jojo'>
+          <Framed id='jojo'>
+            <Avatar ref={jojo} character='jojo' emotion='calm' gaze='pointer' size='100%' decorative />
+          </Framed>
+        </button>
+        <div className='house-window'>
+          <Link
+            to='/friends#filo'
+            className='house-filo'
+            aria-label='窗边是夹夹：认识夹夹'
+            onPointerEnter={() => setFiloHi(true)}
+            onPointerLeave={() => setFiloHi(false)}
+            onFocus={() => setFiloHi(true)}
+            onBlur={() => setFiloHi(false)}
+          >
+            <Framed id='o18'>
+              <Avatar character='o18' emotion={filoHi ? 'happy' : 'calm'} motion='transitions' size='100%' decorative />
+            </Framed>
+          </Link>
         </div>
-      ))}
+      </div>
+      <Link to={`/stories/${latest.id}`} className='house-note'>
+        <span className='hn-pin' aria-hidden='true' />
+        <span className='hn-kicker'>新的一篇 · <time dateTime={latest.date}>{latest.date.slice(5).replace('-', '.')}</time></span>
+        <span className='hn-title'>{latest.title}</span>
+        <span className='hn-go'>读这一篇 →</span>
+      </Link>
     </div>
   )
 }
 
-function Card({ c }: { c: Character }) {
-  const [hot, setHot] = useState(false)
+function Resident({ id, no, role, name, line, emotion }: { id: string; no: string; role: string; name: string; line: string; emotion: EmotionId }) {
   return (
-    <li className='card'>
-      <Link
-        to={`/c/${c.id}`}
-        className='card-link'
-        onPointerEnter={() => setHot(true)}
-        onPointerLeave={() => setHot(false)}
-        onFocus={() => setHot(true)}
-        onBlur={() => setHot(false)}
-        aria-label={`No.${pad(c.no)} ${c.name.en}（${c.name.zh}）：${c.persona.zh}`}
-      >
-        <span className='card-no'>No.{pad(c.no)}</span>
-        <span className='card-art'>
-          <Avatar character={c.id} emotion={hot ? 'happy' : 'calm'} motion='transitions' size='100%' decorative />
-        </span>
-        <span className='card-name'>
-          <span className='en'>{c.name.en}</span>
-          <span className='zh'>{c.name.zh}</span>
-        </span>
-        <span className='card-persona'>{c.persona.zh}</span>
-      </Link>
+    <li className='resident'>
+      <Framed id={id} className='resident-face'>
+        <AvatarStatic character={id} emotion={emotion} size='100%' decorative />
+      </Framed>
+      <div>
+        <p className='resident-role'>{no} · {role}</p>
+        <h3 className='resident-name'>
+          <Link to={`/friends#${id === 'o18' ? 'filo' : id}`}>{name}</Link>
+        </h3>
+        <p className='resident-line'>{line}</p>
+      </div>
     </li>
   )
 }
 
-const SHOW: EmotionId[] = ['happy', 'surprised', 'sleepy', 'cry']
+const TEASER: EmotionId[] = ['happy', 'curious', 'sleepy', 'smug', 'surprised', 'shy', 'laugh']
 
-export function Home() {
-  const [q, setQ] = useState('')
-  const [show, setShow] = useState<EmotionId>('happy')
-  const list = useMemo(() => CHARACTER_LIST.filter((c) => matches(c, q)), [q])
-
+export default function Home() {
+  const [latest, ...older] = STORIES
+  const others = CHARACTER_LIST.filter((c) => c.id !== 'jojo' && c.id !== 'o18')
+  const faces = [0, 3, 7, 10, 14, 18, 21].map((i, k) => ({ id: others[i].id, emotion: TEASER[k] }))
   return (
     <>
-      <section className='hero wrap'>
-        <div className='hero-copy'>
-          <p className='eyebrow'>A family of 26 characters · 26 位角色的家族</p>
-          <h1 className='display'>
-            Jojo <em>&amp;</em> Friends
+      <section className='home-hero wrap' aria-labelledby='home-title'>
+        <div className='hh-copy'>
+          <p className='kicker'>Jojo House</p>
+          <h1 id='home-title' className='hh-title'>
+            <span className='latin'>Jojo</span>
+            <br />
+            住在这里。
           </h1>
-          <p className='lead'>
-            同一个家族的 26 位小伙伴。每一位都有自己的壳体、脸板、五官和那道托着信号点的缺口，
-            又共用同一套表情与业务状态：会专注、会得意、会困、会委屈到嚎啕，也会告诉你“正在处理”“等你回复”“已完成”。
+          <p className='hh-lead'>
+            Jojo 是和 Joye 长期一起做事的 AI 伙伴。这里是它的小家：放着一起经历过的事，也放着几篇原创的小故事。
           </p>
-          <ul className='facts' aria-label='家族一览'>
-            <li><b>{CHARACTER_LIST.length}</b> 位角色</li>
-            <li><b>{EMOTION_IDS.length}</b> 种表情</li>
-            <li><b>{STATUS_IDS.length}</b> 种业务状态</li>
-          </ul>
-          <p className='hero-note'>这里是 Joye 个人角色 IP 的展厅，不连接任何真实 Agent 或任务；点开任意一位即可试玩全部表情与状态。</p>
+          <p className='hh-small'>每篇故事开头都写着，哪一部分是真的。</p>
+          <div className='hh-actions'>
+            <Link className='btn' to='/stories'>去读故事</Link>
+            <Link className='btn ghost' to='/friends'>认识住在这里的伙伴</Link>
+          </div>
         </div>
-        <FamilyPhoto />
+        <HouseScene latest={latest} />
       </section>
 
-      <section className='wrap directory' aria-labelledby='dir-title'>
-        <div className='section-head'>
-          <h2 id='dir-title'>角色目录 <span className='en-sub'>Directory</span></h2>
-          <form
-            className='search'
-            role='search'
-            onSubmit={(e) => {
-              e.preventDefault()
-              if (list.length === 1) navigate(`/c/${list[0].id}`)
-            }}
-          >
-            <label htmlFor='q'>查找角色</label>
-            <input
-              id='q'
-              type='search'
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder='名字、编号或 id，例如 Mochi、麻薯、12'
-              autoComplete='off'
-            />
-          </form>
+      <section className='wrap home-block' aria-labelledby='recent-title'>
+        <div className='sec-head'>
+          <h2 id='recent-title'>最近的故事</h2>
+          <Link to='/stories' className='sec-more'>全部 {STORIES.length} 篇 →</Link>
         </div>
-        <p className='count' aria-live='polite'>{q ? `找到 ${list.length} 位` : '按编号排列，悬停或聚焦时会笑一下。'}</p>
-        {list.length ? (
-          <ul className='cards'>
-            {list.map((c) => <Card key={c.id} c={c} />)}
-          </ul>
-        ) : (
-          <p className='empty'>没有找到“{q}”。试试名字的一部分，或 1–26 的编号。</p>
-        )}
-      </section>
-
-      <section className='wrap samefeel' aria-labelledby='same-title'>
-        <div className='section-head'>
-          <h2 id='same-title'>同一种表情，二十六张不同的脸</h2>
-          <div className='chips' role='group' aria-label='选择表情'>
-            {SHOW.map((e) => (
-              <button key={e} type='button' className='chip' aria-pressed={show === e} onClick={() => setShow(e)}>
-                {EMOTIONS[e].label}
-              </button>
+        <div className='home-stories'>
+          <StoryCard story={latest} big />
+          <div className='home-older'>
+            {older.slice(0, 2).map((s) => (
+              <StoryCard key={s.id} story={s} />
             ))}
           </div>
         </div>
-        <p className='prose'>
-          表情是一份共享的“姿态协议”：每位角色用自己的眼睛、嘴和脸板去演同一个情绪。圆点眼会整体放大，竖排眼依旧竖着排，
-          斜切的脸板和侧边的缺口都保持原样；所以换角色不是换颜色，而是换一张脸。
-        </p>
-        <ul className='strip'>
-          {CHARACTER_LIST.map((c) => (
-            <li key={c.id}>
-              <Link to={`/c/${c.id}?e=${show}`} title={`${c.name.en}：${EMOTIONS[show].label}`}>
-                <AvatarStatic character={c.id} emotion={show} size='100%' intensity={0.8} decorative />
-              </Link>
-            </li>
-          ))}
+      </section>
+
+      <section className='wrap home-block' aria-labelledby='res-title'>
+        <div className='sec-head'>
+          <h2 id='res-title'>住在这里的</h2>
+          <Link to='/friends' className='sec-more'>伙伴 →</Link>
+        </div>
+        <ul className='residents'>
+          <Resident id='jojo' no='No.01' role='这个家的主人' name='Jojo' emotion='happy' line='和 Joye 长期一起做事。话不多，先动手。' />
+          <Resident id='o18' no='No.24' role='副校长' name='夹夹 Filo' emotion='smug' line='自己挑了这个样子。喜欢把东西放回该放的地方。' />
         </ul>
+        <p className='later-line'>
+          <span className='later-door' aria-hidden='true' />
+          以后，Joye 的博客里还会有一位陪人聊天的伙伴。它还没有名字——等它挑好自己的样子，这里会多一扇门。
+        </p>
+      </section>
+
+      <section className='wrap home-block' aria-labelledby='teaser-title'>
+        <div className='play-teaser'>
+        <div className='pt-copy'>
+          <h2 id='teaser-title'>家族里还有 {others.length} 位</h2>
+          <p>它们还没有自己的故事，但可以一起玩：换表情、换状态，或者戳它一下。</p>
+          <Link className='btn ghost' to='/play'>去一起玩 →</Link>
+        </div>
+        <Faces items={faces} />
+        </div>
       </section>
     </>
   )
 }
+

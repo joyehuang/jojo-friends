@@ -2,7 +2,7 @@
   "name": "jojo-friends",
   "version": "0.1.0",
   "private": true,
-  "description": "Jojo & Friends: Joye's personal character IP — 26 characters with 16 emotions and 6 statuses each, and the public showcase site (downloads and source are private).",
+  "description": "Jojo 的小家 (Jojo House): Jojo's home — stories, friends, and the Jojo & Friends character family (26 characters, 16 emotions, 6 statuses). Public site is a showcase; downloads and source are private.",
   "type": "module",
   "packageManager": "pnpm@10.34.5",
   "license": "UNLICENSED",
@@ -10,7 +10,7 @@
     "dev": "tsx scripts/site-public-assets.tsx && vite",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
-    "build": "tsx scripts/site-public-assets.tsx && tsc --noEmit -p tsconfig.json && vite build && tsx scripts/check-public-dist.ts dist",
+    "build": "tsx scripts/site-public-assets.tsx && tsc --noEmit -p tsconfig.json && vite build && vite build --ssr src/site/entry-server.tsx --outDir .ssr --emptyOutDir && tsx scripts/prerender.ts dist .ssr && tsx scripts/check-public-dist.ts dist",
     "check:public": "tsx scripts/check-public-dist.ts dist",
     "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.lib.json",
     "preview": "vite preview --host 127.0.0.1",
@@ -18,7 +18,9 @@
     "identity": "tsx scripts/ref/identity.tsx",
     "solve": "tsx scripts/gen-solved.ts",
     "manifest": "tsx scripts/gen-manifest.ts",
-    "export:private": "tsx scripts/export-private-kit.tsx"
+    "export:private": "tsx scripts/export-private-kit.tsx",
+    "avatars": "tsx scripts/avatar-standard.tsx",
+    "serve:dist": "tsx scripts/serve-dist.ts"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "^5.3.0",

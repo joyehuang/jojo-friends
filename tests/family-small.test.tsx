@@ -10,7 +10,7 @@ const LIST = ONLY ? CHARACTER_LIST.filter((c) => ONLY.includes(c.id)) : CHARACTE
 
 function gray(id: string, status: StatusId, px: number, bg: string) {
   const svg = renderToStaticMarkup(<AvatarStatic character={id} status={status} size={px} intensity={0.8} />)
-  const d = new Resvg(svg, { fitTo: { mode: 'width', value: px }, background: bg }).render().pixels
+  const d = new Resvg(svg, { fitTo: { mode: 'width', value: px }, background: bg, font: { loadSystemFonts: false } }).render().pixels
   const out = new Float64Array(px * px)
   for (let i = 0; i < px * px; i++) out[i] = 0.2126 * d[i * 4] + 0.7152 * d[i * 4 + 1] + 0.0722 * d[i * 4 + 2]
   return out

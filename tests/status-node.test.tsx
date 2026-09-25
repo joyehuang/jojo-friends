@@ -18,7 +18,7 @@ const TASK = ['working', 'needs-input', 'success'] as const
 
 function gray(status: StatusId, px: number, bg: string, emotion: (typeof EMOTION_IDS)[number] = 'calm') {
   const svg = renderToStaticMarkup(<JojoStatic emotion={emotion} status={status} size={px} intensity={0.8} />)
-  const img = new Resvg(svg, { fitTo: { mode: 'width', value: px }, background: bg }).render()
+  const img = new Resvg(svg, { fitTo: { mode: 'width', value: px }, background: bg, font: { loadSystemFonts: false } }).render()
   const d = img.pixels
   const out = new Float64Array(px * px)
   for (let i = 0; i < px * px; i++) out[i] = 0.2126 * d[i * 4] + 0.7152 * d[i * 4 + 1] + 0.0722 * d[i * 4 + 2]
