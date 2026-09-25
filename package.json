@@ -18,7 +18,9 @@
     "identity": "tsx scripts/ref/identity.tsx",
     "solve": "tsx scripts/gen-solved.ts",
     "manifest": "tsx scripts/gen-manifest.ts",
-    "export:private": "tsx scripts/export-private-kit.tsx"
+    "export:private": "tsx scripts/export-private-kit.tsx",
+    "build:web": "tsx scripts/build-web.ts",
+    "check:web": "tsx scripts/check-web-dist.ts dist-web"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "^5.3.0",

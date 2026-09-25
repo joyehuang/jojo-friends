@@ -14,3 +14,8 @@ public/favicon.svg
 .vercel
 .env*
 private-exports
+
+# private web package build output (never committed)
+dist-web/
+out-web/
+src/web/*.generated.ts
