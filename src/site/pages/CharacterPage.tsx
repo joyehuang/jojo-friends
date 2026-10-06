@@ -6,6 +6,7 @@ import {
 } from '../../library'
 import { QUIET, tri, useLook, type Backdrop, type GazePref, type Look, type Tri } from '../look'
 import { Link, navigate, useLocation } from '../router'
+import { IDENTITY_LOOKS, type IdentityLook } from '../variants'
 
 const pad = (n: number) => String(n).padStart(2, '0')
 const GROUPS: EmotionGroup[] = ['daily', 'bright', 'swing', 'blue']
@@ -278,6 +279,41 @@ function Design({ ch }: { ch: Character }) {
   )
 }
 
+/** A static identity look (e.g. Filo on duty): one finished picture, shown beside — never instead of — the live character. */
+function IdentityLookPanel({ ch, v }: { ch: Character; v: IdentityLook }) {
+  return (
+    <section className='panel duty' id={v.id} aria-labelledby={`${v.id}-title`}>
+      <h2 id={`${v.id}-title`}>
+        {v.label.zh} <span className='muted small'>{v.label.en} · 静态身份头像</span>
+      </h2>
+      <div className='duty-body'>
+        <figure className='duty-art'>
+          <img src={v.src} width={1024} height={1024} alt={v.alt} loading='lazy' decoding='async' draggable={false} />
+        </figure>
+        <div className='duty-text'>
+          <p className='prose'>{v.summary}</p>
+          <ul className='duty-adds'>{v.adds.map((a) => <li key={a}>{a}</li>)}</ul>
+          <p className='duty-note'>
+            这是一张静态头像，只有这一个样子：没有 16 种表情、业务状态或动效。上面的试玩控制只作用于普通版 {ch.name.en}，普通版不变。
+          </p>
+          <div className='sizes duty-sizes' aria-label={`${v.label.zh}与普通版的小尺寸对照`}>
+            <figure>
+              <div className='size-box bg-paper'><AvatarStatic character={ch.id} size={64} decorative /></div>
+              <figcaption>普通版</figcaption>
+            </figure>
+            {[96, 64, 48, 32].map((px) => (
+              <figure key={px}>
+                <div className='size-box bg-paper'><img src={v.src} width={px} height={px} alt='' /></div>
+                <figcaption>{px}px</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function Strip({ ch, search }: { ch: Character; search: string }) {
   return (
     <nav className='panel' aria-label='切换角色（保持当前表情与状态）'>
@@ -323,6 +359,14 @@ export function CharacterPage({ character: ch }: { character: Character }) {
     navigate(`/c/${ch.id}${qs}`, { replace: true })
   }, [ch.id, qs])
 
+  // identity looks have their own anchor (/c/o18#on-duty); the page renders after load, so scroll to it once here
+  const looks = IDENTITY_LOOKS[ch.id] ?? []
+  useEffect(() => {
+    const id = location.hash.slice(1)
+    if (looks.some((v) => v.id === id)) document.getElementById(id)?.scrollIntoView()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ch.id])
+
   const i = CHARACTER_LIST.indexOf(ch)
   const prev = CHARACTER_LIST[(i - 1 + CHARACTER_LIST.length) % CHARACTER_LIST.length]
   const next = CHARACTER_LIST[(i + 1) % CHARACTER_LIST.length]
@@ -343,6 +387,16 @@ export function CharacterPage({ character: ch }: { character: Character }) {
           {ch.name.en} <span className='zh'>{ch.name.zh}</span>
         </h1>
         <p className='lead'>{ch.persona.zh}</p>
+        {looks.length > 0 && (
+          <p className='look-links'>
+            {looks.map((v) => (
+              <a key={v.id} href={`#${v.id}`} className='look-link'>
+                <img src={v.src} width={28} height={28} alt='' />
+                另有{v.label.zh} <span className='muted'>{v.label.en}</span> ↓
+              </a>
+            ))}
+          </p>
+        )}
       </header>
 
       <div className='play'>
@@ -350,6 +404,7 @@ export function CharacterPage({ character: ch }: { character: Character }) {
         <Controls ch={ch} onReplay={() => setReplayKey((k) => k + 1)} />
       </div>
 
+      {looks.map((v) => <IdentityLookPanel key={v.id} ch={ch} v={v} />)}
       <TriCompare ch={ch} replayKey={replayKey} />
       <EmotionGrid ch={ch} />
       <Design ch={ch} />
