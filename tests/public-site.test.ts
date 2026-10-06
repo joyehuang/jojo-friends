@@ -4,7 +4,7 @@
 // downloads, asset kits, source art, vector masters, source maps, exporter
 // chunk, copy-code snippet or repository links. This is a real `vite build`,
 // not a check that some button is hidden with CSS.
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
@@ -31,6 +31,14 @@ describe('public site build', () => {
     }
   })
 
+  it('the only image it ships is the display WebP of Filo on duty — no PNG, SVG master or build script', () => {
+    const images = readdirSync(join(out, 'assets')).filter((f) => !/\.(js|css|woff2?)$/.test(f))
+    expect(images).toHaveLength(1)
+    expect(images[0]).toMatch(/^filo-on-duty-[\w-]+\.webp$/)
+    const js = readdirSync(join(out, 'assets')).filter((f) => f.endsWith('.js')).map((f) => readFileSync(join(out, 'assets', f), 'utf8')).join('\n')
+    expect(js).not.toMatch(/filo-ops-avatar|\.private\.svg|design\.py|reference\/variants/)
+  })
+
   it('the 404 page is a real page, not the app shell', () => {
     const html = readFileSync(join(out, '404.html'), 'utf8')
     expect(html).toContain('找不到这个页面')
@@ -52,6 +60,8 @@ describe('checkPublicDist', () => {
       writeFileSync(join(bad, 'assets/index-abc.js.map'), '{}')
       writeFileSync(join(bad, 'assets/exporter-abc.js'), 'renderToStaticMarkup(a);c.toBlob(ok)')
       writeFileSync(join(bad, 'notes.txt'), 'private')
+      writeFileSync(join(bad, 'assets/filo-ops-avatar.private.svg'), '<svg/>')
+      writeFileSync(join(bad, 'assets/filo-on-duty-abc.png'), 'png')
       const problems = checkPublicDist(bad).join('\n')
       for (const want of [
         'index.html: contains link to the source repository',
@@ -62,6 +72,8 @@ describe('checkPublicDist', () => {
         'assets/exporter-abc.js: contains server renderer',
         'assets/exporter-abc.js: contains in-browser PNG/WebP exporter',
         'notes.txt: not on the public allowlist',
+        'assets/filo-ops-avatar.private.svg: not on the public allowlist',
+        'assets/filo-on-duty-abc.png: not on the public allowlist',
       ]) expect(problems).toContain(want)
     } finally {
       rmSync(bad, { recursive: true, force: true })

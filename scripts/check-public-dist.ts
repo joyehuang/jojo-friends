@@ -1,5 +1,5 @@
-// Guards the public showcase build: it may contain the page, its JS/CSS/fonts
-// and the favicon — never downloads, asset kits, source art, vector masters,
+// Guards the public showcase build: it may contain the page, its JS/CSS/fonts,
+// the favicon and the display copy of each static identity look (one WebP each) — never downloads, asset kits, source art, vector masters,
 // source maps or links to the (private) repository.
 //   pnpm exec tsx scripts/check-public-dist.ts [dist]      (runs at the end of `pnpm build`)
 import { readdirSync, readFileSync, statSync } from 'node:fs'
@@ -12,6 +12,8 @@ const ALLOWED = [
   /^404\.html$/,
   /^favicon\.svg$/,
   /^assets\/[\w.-]+\.(js|css|woff2?)$/,
+  // display copies of static identity looks (src/site/variants/), never their masters
+  /^assets\/filo-on-duty-[\w-]+\.webp$/,
 ]
 /** Paths that must never be published, whatever their extension. */
 const FORBIDDEN_PATH = /(^|\/)(downloads|reference|revisions|kit|private-exports|dist-lib|out)(\/|$)|\.(zip|map|tgz|tar|gz|psd|ai|ts|tsx)$/i

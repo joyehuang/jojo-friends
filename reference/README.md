@@ -11,6 +11,7 @@ These are the **source images** the 26 vector characters were redrawn from. They
 | `sheets/overview-20.png`, `sheets/group-*.png` | the sheets the `options-20` crops come from; the numbers under each tile in `overview-20.png` were added programmatically and are not part of the artwork |
 
 | `revisions/<id>-r<N>.svg` | superseded vector designs of characters that were later revised (currently `o05`, `o07`, `o16` r1), rendered from the component when they were replaced |
+| `variants/o18-on-duty/` | Filo's static "值班版 / On duty" identity look (approved 2026-10-06): approved PNG, SVG master and build script; only a lossless WebP copy is public, see its README |
 
 ## Design revisions
 
