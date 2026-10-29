@@ -108,6 +108,7 @@ export class Town3D {
     this.controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN }
     this.setView(HOME_VIEW.target, HOME_VIEW.azimuth, HOME_VIEW.polar, HOME_VIEW.distance)
     this.controls.addEventListener('start', () => {
+      this.moved = true
       this.fly = null
       if (this.store.state.following) this.store.setFollowing(false)
     })
@@ -159,6 +160,14 @@ export class Town3D {
 
   resize(w: number, h: number) {
     this.engine.resize(w, h)
+    // until someone moves the camera, keep the opening view framed for this screen shape
+    if (!this.moved) this.setView(HOME_VIEW.target, HOME_VIEW.azimuth, HOME_VIEW.polar, this.homeDistance())
+  }
+
+  private moved = false
+
+  private homeDistance() {
+    return HOME_VIEW.distance * (this.engine.camera.aspect < 0.9 ? 1.25 : 1)
   }
 
   /* ---------------- state ---------------- */
@@ -362,12 +371,13 @@ export class Town3D {
       target.y + distance * Math.cos(polar),
       target.z + distance * Math.sin(polar) * Math.cos(az),
     )
+    this.moved = true
     this.fly = { from: cam.position.clone(), to, fromT: this.controls.target.clone(), toT: target.clone(), t: 0, dur: 1.1 }
   }
 
   resetView() {
     this.store.setFollowing(false)
-    this.flyTo(HOME_VIEW.target, HOME_VIEW.distance, HOME_VIEW.azimuth, HOME_VIEW.polar)
+    this.flyTo(HOME_VIEW.target, this.homeDistance(), HOME_VIEW.azimuth, HOME_VIEW.polar)
   }
 
   /** Look at an employee from the front of their desk (or wherever they are), clear of the employee card. */
@@ -441,6 +451,7 @@ export class Town3D {
       if (k.has('KeyD') || k.has('ArrowRight')) move.add(right)
       if (k.has('KeyA') || k.has('ArrowLeft')) move.sub(right)
       if (move.lengthSq()) {
+        this.moved = true
         move.normalize().multiplyScalar(dt * Math.max(10, dist * 0.9))
         this.controls.target.add(move)
         cam.position.add(move)

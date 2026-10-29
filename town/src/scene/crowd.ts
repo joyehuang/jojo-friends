@@ -10,7 +10,7 @@ import type { EmployeeView, TownSnapshot } from '../work/types'
 import { Actor, type Motion } from './actors'
 import type { FaceAtlas } from './faces'
 import { bubbleTexture } from './icons'
-import { HOMES, ISLETS, L, LEISURE, PIER, RING, REACH, ROAD, STATIONS, type Crossing, type Leisure, NavGraph } from './layout'
+import { HOMES, HOT_DESKS, ISLETS, L, LEISURE, PIER, RING, REACH, ROAD, STATIONS, type Crossing, type Leisure, NavGraph } from './layout'
 import type { Traffic } from './traffic'
 import type { HomeBuilt } from './world/buildings'
 import { bridgeAt, deckY } from './world/ground'
@@ -75,6 +75,7 @@ export class Crowd {
       this.places.set(`station:${slot.role}`, { key: `station:${slot.role}`, node: slot.node, via: slot.via, pos: slot.spot, face: slot.ry })
     }
     for (const l of LEISURE) this.places.set(`leisure:${l.id}`, { key: `leisure:${l.id}`, node: l.node, via: l.via ?? [], pos: [l.x, l.z], face: l.face, leisure: l })
+    for (const h of HOT_DESKS) this.places.set(`hot:${h.id}`, { key: `hot:${h.id}`, node: h.node, via: [], pos: [h.x, h.z], face: h.face })
     CHARACTER_LIST.forEach((c, i) => {
       const plan = HOMES[i % HOMES.length]
       const built = homes[i % homes.length]
@@ -115,9 +116,17 @@ export class Crowd {
   private desire(w: Walker, v: EmployeeView, now: number): Place {
     const station = v.role ? this.places.get(`station:${v.role.id}`) : undefined
     if (v.phase === 'offline') return w.home
-    if (station && (v.phase === 'working' || v.phase === 'blocked' || v.phase === 'error' || v.phase === 'full')) {
+    const busy = v.phase === 'working' || v.phase === 'blocked' || v.phase === 'error' || v.phase === 'full'
+    if (station && busy) {
       w.breakPlan = null
       return station
+    }
+    if (busy && v.role) {
+      // a job with no desk of its own (from your feed): work at a standing desk on the square
+      w.breakPlan = null
+      if (w.goalKey.startsWith('hot:')) return this.places.get(w.goalKey)!
+      const free = HOT_DESKS.find((h) => ![...this.walkers.values()].some((o) => o !== w && o.goalKey === `hot:${h.id}`))
+      if (free) return this.places.get(`hot:${free.id}`)!
     }
     if (v.phase === 'break') {
       if (!w.breakPlan) {
@@ -351,7 +360,7 @@ export class Crowd {
   private motionAt(w: Walker): Motion {
     const v = w.view
     if (!v || !w.place) return 'stand'
-    if (w.place.key.startsWith('station:')) {
+    if (w.place.key.startsWith('station:') || w.place.key.startsWith('hot:')) {
       if (v.phase === 'working') return 'work'
       if (v.phase === 'blocked') return 'ask'
       if (v.phase === 'error') return 'error'
@@ -399,12 +408,14 @@ export class Crowd {
     const place = w.place
     if (w.moving) {
       if (place?.key.startsWith('station:')) return '正在去工位'
+      if (place?.key.startsWith('hot:')) return '正在去广场的站立办公桌'
       if (place?.inside) return '正在回家'
       return place?.leisure ? `正在去${place.leisure.label.replace(/^在|^去/, '')}` : '在路上'
     }
     if (!place) return ''
     if (place.inside) return '在家休息'
     if (place.leisure) return place.leisure.label
+    if (place.key.startsWith('hot:')) return '在广场的站立办公桌'
     return '在工位'
   }
 }

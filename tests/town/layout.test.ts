@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { HOMES, LEISURE, STATIONS, buildNav } from '../../town/src/scene/layout'
+import { HOMES, HOT_DESKS, LEISURE, STATIONS, buildNav } from '../../town/src/scene/layout'
 import { ROLES } from '../../town/src/work/roles'
 
 describe('town layout', () => {
@@ -22,6 +22,7 @@ describe('town layout', () => {
       ...Object.values(STATIONS).map((s) => [`station ${s.role}`, s.node] as [string, [number, number]]),
       ...HOMES.map((h) => [`home ${h.addr}`, h.node] as [string, [number, number]]),
       ...LEISURE.map((l) => [`leisure ${l.id}`, l.node] as [string, [number, number]]),
+      ...HOT_DESKS.map((h) => [`standing desk ${h.id}`, h.node] as [string, [number, number]]),
     ]
     for (const [label, node] of places) {
       expect(nav.has(node[0], node[1]), `${label} node ${node}`).toBe(true)

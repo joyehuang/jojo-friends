@@ -362,6 +362,18 @@ for (const d of DISTRICTS) {
   })
 }
 
+/**
+ * Standing desks on the north side of the square, for anyone working without
+ * a desk of their own (a job your feed names that is not one of the 22).
+ */
+export interface HotDesk { id: string; x: number; z: number; face: number; node: [number, number] }
+export const HOT_DESKS: HotDesk[] = [
+  { id: 'hot-1', x: -4.2, z: -9.6, face: Math.PI, node: [0, -14] },
+  { id: 'hot-2', x: 4.2, z: -9.6, face: Math.PI, node: [0, -14] },
+  { id: 'hot-3', x: 9.9, z: -4.4, face: Math.PI / 2, node: [14, 0] },
+  { id: 'hot-4', x: -9.9, z: -4.4, face: -Math.PI / 2, node: [-14, 0] },
+]
+
 /** Where the plaza's coffee cart, benches and beds go (kept off the walking lines). */
 export const PLAZA = {
   half: 18 - GE,

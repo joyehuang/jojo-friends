@@ -107,7 +107,7 @@ pnpm preview:town   # 本地预览构建结果
 ```
 
 - `id`：角色 id（`jojo`、`o13`、`h04`……）。
-- `role`：`roles.ts` 里的岗位 id 会排到对应工位；也可以写你自己的岗位名，这时 TA 没有固定工位，在镇上自由活动，产出照样能收。
+- `role`：`roles.ts` 里的岗位 id 会排到对应工位；也可以写你自己的岗位名，这时 TA 没有固定工位，工作时去广场北边的站立办公桌（共 4 张），其他时候在镇上自由活动，产出照样能收（徽章挂在 TA 头顶）。
 - `status`：`idle`、`working`、`needs-input`、`success`、`error`、`offline` 之一，和角色库的 6 个状态相同。
 - `emotion`：16 个表情之一（可选；不填时按状态自动选）。
 - `task.kind` 和 `outputs[].kind`：`article`、`post`、`deck`、`report`、`code`、`review`、`mail`、`design`、`data`、`brief`、`ops`、`doc` 之一，决定方块上的图案。

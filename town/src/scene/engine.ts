@@ -150,6 +150,8 @@ export class Engine {
     this.composer.setPixelRatio(this.renderer.getPixelRatio())
     this.composer.setSize(this.width, this.height)
     this.camera.aspect = this.width / this.height
+    // portrait phones see little sideways at the desktop lens: widen it
+    this.camera.fov = this.camera.aspect < 0.9 ? 48 : 34
     this.camera.updateProjectionMatrix()
   }
 

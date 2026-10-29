@@ -1,7 +1,7 @@
 // Houses, the four district buildings, the signal tower and the plaza, street
 // lamps, benches, the elevated railway and its station.
 import * as THREE from 'three'
-import { BUILDING, DISTRICTS, GE, HOMES, L, PLAZA, RAIL, REACH, toWorld } from '../layout'
+import { BUILDING, DISTRICTS, GE, HOMES, HOT_DESKS, L, PLAZA, RAIL, REACH, toWorld } from '../layout'
 import { Batcher, C, Frame, Mats, box, cone, cyl, gableEnds, rbox, roofPlanes, slab, sphere } from '../kit'
 import { labelTexture } from '../textures'
 import { makeRng } from '../../work/rng'
@@ -372,6 +372,18 @@ export function buildPlaza(b: Batcher, occ: Occupancy, mats: Mats, scene: THREE.
   cart.put(b, 'paint', cyl(0.16, 0.13, 0.3, 12), 0.2, 1.62, 0.15, C.paper)
   occ.circle(PLAZA.coffee.x, PLAZA.coffee.z, 1.6)
   for (const [x, z] of [[12.2, 6], [12.2, -6], [-12.2, 6], [-12.2, -6], [6, 12.2], [-6, 12.2], [6, -12.2], [-6, -12.2]] as const) lamp(b, x, y, z)
+  // standing desks for anyone working without a desk of their own
+  for (const h of HOT_DESKS) {
+    const f = new Frame(h.x, y, h.z, h.face)
+    f.put(b, 'paint', cyl(0.3, 0.34, 0.05, 20), 0, 0.025, 0.95, C.indigo)
+    f.put(b, 'paint', cyl(0.045, 0.055, 1.0, 10), 0, 0.52, 0.95, C.indigo)
+    f.put(b, 'wood', rbox(1.1, 0.06, 0.62, 0.03), 0, 1.04, 0.95, C.wood)
+    f.put(b, 'paint', rbox(0.44, 0.02, 0.3, 0.01), 0, 1.08, 0.9, '#d9dcee')
+    f.put(b, 'paint', rbox(0.44, 0.28, 0.02, 0.01), 0, 1.23, 1.06, '#d9dcee', 0, 0.22)
+    f.put(b, 'screen', box(0.39, 0.23, 0.005), 0, 1.23, 1.045, '#cfe6ff', Math.PI, -0.22)
+    const p = f.at(0, 0, 0.95)
+    occ.circle(p[0], p[2], 0.8)
+  }
   // the square is paved: nothing grows on it but the planters
   occ.rect(-12.6, -12.6, 12.6, 12.6)
   return { beacon, halo }
