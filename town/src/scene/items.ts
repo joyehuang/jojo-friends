@@ -97,8 +97,8 @@ export class Items {
     if (!m) {
       const side = new THREE.MeshStandardMaterial({ color: OUTPUT_KINDS[kind].accent, roughness: 0.45 })
       const face = new THREE.MeshStandardMaterial({ map: tileFace(kind), roughness: 0.55 })
-      // box groups: +x −x +y −y +z −z
-      m = [side, side, side, side, face, face]
+      // two groups (see addBoxGroups): the rim, then both picture faces
+      m = [side, face]
       this.bodyMats.set(kind, m)
     }
     return m
@@ -200,7 +200,7 @@ export class Items {
   }
 }
 
-/** RoundedBoxGeometry has no material groups; split its faces by normal into the BoxGeometry order. */
+/** RoundedBoxGeometry has no material groups: sort its faces by normal into a rim group and a picture-face group. */
 function addBoxGroups(g: THREE.BufferGeometry) {
   const src = g.index ? g.toNonIndexed() : g
   const pos = src.getAttribute('position'), nor = src.getAttribute('normal'), uv = src.getAttribute('uv')
@@ -214,7 +214,6 @@ function addBoxGroups(g: THREE.BufferGeometry) {
     buckets[side].push(tri)
   }
   const P: number[] = [], N: number[] = [], U: number[] = []
-  let start = 0
   g.clearGroups()
   buckets.forEach((tris, side) => {
     for (const tri of tris) for (let k = 0; k < 3; k += 1) {
@@ -227,9 +226,11 @@ function addBoxGroups(g: THREE.BufferGeometry) {
         U.push(side === 4 ? x : 1 - x, y)
       } else U.push(uv ? uv.getX(i) : 0, uv ? uv.getY(i) : 0)
     }
-    g.addGroup(start, tris.length * 3, side)
-    start += tris.length * 3
   })
+  // one draw for the rim (the four sides), one for the two picture faces
+  const rim = (buckets[0].length + buckets[1].length + buckets[2].length + buckets[3].length) * 3
+  g.addGroup(0, rim, 0)
+  g.addGroup(rim, (buckets[4].length + buckets[5].length) * 3, 1)
   g.setIndex(null)
   g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3))
   g.setAttribute('normal', new THREE.Float32BufferAttribute(N, 3))

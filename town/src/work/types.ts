@@ -200,4 +200,6 @@ export interface TownSnapshot {
   stats: TownStats
   feedError?: string
   feedUpdatedAt?: number
+  /** feed mode before the first document arrives: nobody is anywhere yet */
+  pending?: boolean
 }

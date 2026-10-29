@@ -164,8 +164,10 @@ export class Town3D {
   /* ---------------- state ---------------- */
 
   private applySnapshot(snap: TownSnapshot, first: boolean) {
+    // the first real feed document puts everyone straight in place, like the first demo snapshot
+    const settle = first || (!!this.snapSeen?.pending && !snap.pending)
     this.snapSeen = snap
-    this.crowd.sync(snap, first)
+    this.crowd.sync(snap, settle)
     const holders = new Map<string, string>()
     for (const id of snap.order) {
       const v = snap.employees[id]

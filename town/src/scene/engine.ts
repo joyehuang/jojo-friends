@@ -11,8 +11,8 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
 export type Level = 'high' | 'medium' | 'low'
 
 const PRESETS: Record<Level, { pixelRatio: number; ao: boolean; bloom: boolean; shadow: number; msaa: number }> = {
-  high: { pixelRatio: 2, ao: true, bloom: true, shadow: 4096, msaa: 4 },
-  medium: { pixelRatio: 1.5, ao: true, bloom: true, shadow: 2048, msaa: 2 },
+  high: { pixelRatio: 1.75, ao: true, bloom: true, shadow: 4096, msaa: 4 },
+  medium: { pixelRatio: 1.25, ao: true, bloom: true, shadow: 2048, msaa: 2 },
   low: { pixelRatio: 1, ao: false, bloom: false, shadow: 1024, msaa: 0 },
 }
 

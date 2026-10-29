@@ -46,6 +46,7 @@ export class TownStore {
   private timers: number[] = []
   private toastId = 0
   private feedAbort: AbortController | null = null
+  private feedTimer = 0
 
   constructor(now = Date.now()) {
     const settings = loadSettings()
@@ -65,7 +66,7 @@ export class TownStore {
       saveState(this.work)
     }
     this.state = {
-      snap: this.work ? snapshotOf(this.work, now) : snapshotFromFeed({}, this.feedHarvest, now),
+      snap: this.work ? snapshotOf(this.work, now) : { ...snapshotFromFeed({}, this.feedHarvest, now), pending: true },
       selected: null,
       panel: null,
       toasts: [],
@@ -104,6 +105,7 @@ export class TownStore {
     return () => {
       this.timers.forEach((t) => window.clearInterval(t))
       this.timers = []
+      window.clearTimeout(this.feedTimer)
       this.feedAbort?.abort()
       window.removeEventListener('pagehide', onHide)
       document.removeEventListener('visibilitychange', onVisibility)
@@ -138,7 +140,7 @@ export class TownStore {
       advance(this.work, now)
       this.set({ snap: snapshotOf(this.work, now) })
     } else {
-      this.set({ snap: { ...snapshotFromFeed(this.feedDoc ?? {}, this.feedHarvest, now), feedError: this.state.snap.feedError } })
+      this.set({ snap: { ...snapshotFromFeed(this.feedDoc ?? {}, this.feedHarvest, now), feedError: this.state.snap.feedError, pending: !this.feedDoc } })
     }
   }
 
@@ -159,13 +161,17 @@ export class TownStore {
 
   private async pollFeed() {
     const cfg = this.state.settings.feed
-    if (!cfg.url) return
+    window.clearTimeout(this.feedTimer)
+    if (!cfg.url || this.state.settings.source !== 'feed') return
     this.feedAbort?.abort()
     const ctl = new AbortController()
     this.feedAbort = ctl
     this.set({ feedLoading: true })
     try {
-      this.feedDoc = await fetchFeed(cfg, ctl.signal)
+      const doc = await fetchFeed(cfg, ctl.signal)
+      // switched away (or to another feed) while this one was loading
+      if (ctl.signal.aborted || this.state.settings.source !== 'feed') return
+      this.feedDoc = doc
       const now = Date.now()
       this.set({ snap: snapshotFromFeed(this.feedDoc, this.feedHarvest, now), feedLoading: false })
     } catch (err) {
@@ -174,7 +180,7 @@ export class TownStore {
       this.set({ snap: { ...this.state.snap, feedError: msg }, feedLoading: false })
     }
     if (!ctl.signal.aborted && this.state.settings.source === 'feed') {
-      this.timers.push(window.setTimeout(() => this.pollFeed(), FEED_INTERVAL))
+      this.feedTimer = window.setTimeout(() => this.pollFeed(), FEED_INTERVAL)
     }
   }
 
@@ -249,8 +255,10 @@ export class TownStore {
   }
 
   updateSettings(patch: Partial<Settings>) {
-    const settings = { ...this.state.settings, ...patch, feed: { ...this.state.settings.feed, ...(patch.feed ?? {}) } }
-    const sourceChanged = settings.source !== this.state.settings.source || settings.feed.url !== this.state.settings.feed.url
+    const prev = this.state.settings
+    const settings = { ...prev, ...patch, feed: { ...prev.feed, ...(patch.feed ?? {}) } }
+    const feedChanged = settings.feed.url !== prev.feed.url || settings.feed.token !== prev.feed.token
+    const sourceChanged = settings.source !== prev.source || (settings.source === 'feed' && feedChanged)
     saveSettings(settings)
     this.set({ settings })
     if (sourceChanged) {
@@ -259,7 +267,13 @@ export class TownStore {
         this.work = loadState() ? migrate(loadState()!) : createState(now)
         advance(this.work, now)
       }
-      if (settings.source === 'feed') { this.feedDoc = null; this.pollFeed() } else this.feedAbort?.abort()
+      if (settings.source === 'feed') {
+        this.feedDoc = null
+        this.pollFeed()
+      } else {
+        window.clearTimeout(this.feedTimer)
+        this.feedAbort?.abort()
+      }
       this.refresh()
     }
   }

@@ -287,10 +287,11 @@ button:disabled { cursor: default; }
 .view-controls button { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; }
 .view-controls button:hover { background: var(--mint); }
 .panel ~ .view-controls, .panel ~ .toasts { right: 420px; }
+.panel ~ .view-controls { bottom: 104px; }
 .view-controls button:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(45, 50, 114, 0.22); }
 
 /* ---------------- toasts ---------------- */
-.toasts { position: absolute; right: 74px; bottom: 20px; display: flex; flex-direction: column-reverse; gap: 8px; align-items: flex-end; pointer-events: none; }
+.toasts { position: absolute; right: 74px; bottom: 104px; display: flex; flex-direction: column-reverse; gap: 8px; align-items: flex-end; pointer-events: none; }
 .toast { display: flex; align-items: center; gap: 8px; padding: 8px 14px 8px 10px; border-radius: 16px; font-size: 14px; font-weight: 800; animation: toast 6s ease forwards; max-width: 360px; }
 .toast-harvest { background: var(--mint); }
 .toast-warn { background: #ffe6e1; }
