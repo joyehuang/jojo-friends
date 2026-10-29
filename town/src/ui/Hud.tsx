@@ -31,6 +31,13 @@ export function Hud({ store, state, town, hover }: Props) {
     }
   }, [town, store])
 
+  // a background tab still says when there is something to harvest or answer
+  const pending = snap.stats.ready
+  const asks = snap.requests.length
+  useEffect(() => {
+    document.title = pending || asks ? `${pending ? `(${pending}) ` : ''}${asks ? `${asks} 个问题 · ` : ''}信号镇` : '信号镇 · Jojo & Friends 上班中'
+  }, [pending, asks])
+
   const hour = new Date(snap.now).getHours()
   const night = hour < 6 || hour >= 19
   const openRequests = snap.requests.length

@@ -118,7 +118,7 @@ export class Engine {
     this.outline.hiddenEdgeColor.set('#fe6a4a')
     this.outline.pulsePeriod = 0
     this.composer.addPass(this.outline)
-    this.bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.35, 0.6, 0.92)
+    this.bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.22, 0.6, 3.2)
     this.composer.addPass(this.bloom)
     this.composer.addPass(new OutputPass())
   }
@@ -181,8 +181,11 @@ export class Engine {
     u.sunDir.value.copy(dir)
     u.sunColor.value.set('#fff4d6').lerp(new THREE.Color('#ffae7a'), dusk).multiplyScalar(1 - night * 0.9)
     ;(this.scene.fog as THREE.Fog).color.copy(u.horizon.value)
-    this.bloom.strength = THREE.MathUtils.lerp(0.18, 0.75, night)
-    this.bloom.threshold = THREE.MathUtils.lerp(0.95, 0.55, night)
+    // bloom works on linear light before tone mapping, where sunlit pale walls
+    // already exceed 1: keep the threshold above them so only lamps, signal dots
+    // and lit windows glow (by night those are the only bright things left)
+    this.bloom.strength = THREE.MathUtils.lerp(0.22, 0.7, night)
+    this.bloom.threshold = THREE.MathUtils.lerp(3.2, 0.9, night)
     this.renderer.toneMappingExposure = THREE.MathUtils.lerp(0.98, 1.2, night)
     return night
   }

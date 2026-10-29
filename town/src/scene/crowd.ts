@@ -100,7 +100,8 @@ export class Crowd {
     for (const d of this.decks) if (x > d.x0 && x < d.x1 && z > d.z0 && z < d.z1) return d.y
     if (Math.abs(x) < REACH && Math.abs(z) < REACH) {
       if (L.some((g) => Math.abs(x - g) < ROAD) || L.some((g) => Math.abs(z - g) < ROAD)) return 0.05
-      return 0.165
+      // the round paving around the signal tower sits a little proud of the square
+      return Math.hypot(x, z) < 11.2 ? 0.205 : 0.165
     }
     if ((Math.abs(Math.abs(x) - RING) < 1.5 && Math.abs(z) < RING + 1.5) || (Math.abs(Math.abs(z) - RING) < 1.5 && Math.abs(x) < RING + 1.5)) return 0.156
     if (Math.abs(x - PIER.x) < 1.7 && z > PIER.z0 - 1 && z < PIER.z1 + 2) return 0.18

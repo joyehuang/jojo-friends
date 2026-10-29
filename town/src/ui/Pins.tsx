@@ -1,7 +1,9 @@
 // HTML pins that ride over the 3D scene. Over every desk with something for
 // you: a "?" (they need you to decide), a "!" (they are stuck) and a coral
 // harvest badge with what is on the shelf. Over people: a name tag up close.
-// Town3D moves them every frame; React only decides what they say.
+// Town3D moves them every frame; React only decides what they say. They are
+// pointer shortcuts (hidden from assistive tech, out of the tab order): the
+// same actions live in the harvest button, the inbox and the roster.
 import { STATIONS } from '../scene/layout'
 import type { Pick, Town3D } from '../scene/town3d'
 import { kindIconURL } from '../scene/icons'
@@ -64,7 +66,7 @@ export function Pins({ town, store, state, hover }: Props) {
 function RequestBadge({ v, onClick }: { v: EmployeeView; onClick: () => void }) {
   const r = v.request!
   return (
-    <button className={`pin-req pin-${r.kind}`} onClick={onClick} title={`${nameOf(v.id)}：${r.title}`}>
+    <button className={`pin-req pin-${r.kind}`} onClick={onClick} title={`${nameOf(v.id)}：${r.title}`} tabIndex={-1}>
       {r.kind === 'error' ? '!' : '?'}
     </button>
   )
@@ -73,7 +75,7 @@ function RequestBadge({ v, onClick }: { v: EmployeeView; onClick: () => void }) 
 function ReadyBadge({ v, onClick }: { v: EmployeeView; onClick: () => void }) {
   const latest = v.ready[v.ready.length - 1]
   return (
-    <button className={`pin-ready${v.phase === 'full' ? ' full' : ''}`} onClick={onClick} title={`收下${nameOf(v.id)}的 ${v.ready.length} 件产出`}>
+    <button className={`pin-ready${v.phase === 'full' ? ' full' : ''}`} onClick={onClick} title={`收下${nameOf(v.id)}的 ${v.ready.length} 件产出`} tabIndex={-1}>
       <img src={kindIconURL(latest.kind)} alt='' />
       {v.ready.length > 1 && <span>×{v.ready.length}</span>}
     </button>

@@ -55,7 +55,8 @@ export class Town3D {
   private fly: { from: THREE.Vector3; to: THREE.Vector3; fromT: THREE.Vector3; toT: THREE.Vector3; t: number; dur: number } | null = null
   private frameTimes: number[] = []
   private frameCount = 0
-  private autoLevel: Level = 'high'
+  /** phones and tablets start a step lower; everyone steps down further if frames sag */
+  private autoLevel: Level = typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches ? 'medium' : 'high'
   private tmp = new THREE.Vector3()
   /** screen point (CSS px) of the HUD basket, for flying harvests */
   basket: (() => { x: number; y: number } | null) | null = null
@@ -377,7 +378,8 @@ export class Town3D {
     const cam = this.engine.camera
     const off = cam.position.clone().sub(this.controls.target)
     const az = atDesk ? slot.ry : Math.atan2(off.x, off.z)
-    const dist = atDesk ? 11.5 : 12
+    // narrow portrait screens see less sideways: step back so the subject is not cropped
+    const dist = (atDesk ? 11.5 : 12) * (cam.aspect < 0.8 ? 1.5 : 1)
     const polar = atDesk ? 1.05 : 0.95
     const target = atDesk ? new THREE.Vector3((slot.x + slot.spot[0]) / 2, 0.9, (slot.z + slot.spot[1]) / 2) : new THREE.Vector3(head.x, 0.9, head.z)
     if (this.store.state.selected === id) {
