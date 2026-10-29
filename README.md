@@ -4,13 +4,14 @@ Joye's personal character IP: a family of **26 characters** — each one a layer
 
 **Public showcase:** https://jojo-friends.vercel.app · **Internal docs:** [spec](docs/SPEC.md) · [API](docs/API.md) · [the 26 characters](docs/CHARACTERS.md) · [adding a character](docs/EXTENDING.md)
 
-> **This repository is private** (since 2026-09-25). The website stays public as a showcase of the characters — browse, play with every emotion and status, share a character link — but it no longer offers source code, copy-paste snippets, SVG/PNG/WebP exports, asset kits or master files. Nothing here connects to a real agent, account or task.
+> **This repository is private** (since 2026-09-25). The website stays public as a showcase of the characters — browse, play with every emotion and status, share a character link — but it no longer offers source code, copy-paste snippets, SVG/PNG/WebP exports, asset kits or master files. The showcase connects to no real agent, account or task (the separate 信号镇 town app below can, from a feed you set up yourself).
 
 ## What's in it
 
 - **26 characters, not 26 recolours.** Jojo (the approved lead) plus 25 companions redrawn from their AI-generated source art as parametric vectors (three of them — Pocket, Mino and Dotty — later revised so they no longer read as Jojo or Zaza; see [design revisions](docs/SPEC.md#11-design-revisions)): rounded polygons, circles and filleted notches — no embedded bitmaps, no auto-traced paths. Chamfered and tilted plates, landscape and portrait shells, side notches, bites, stacked eyes, dot eyes and dash eyes are all kept.
 - **One protocol.** `calm, focus, think, puzzled, curious, happy, laugh, smug, shy, celebrate, surprised, angry, sleepy, aggrieved, cry, sob` × `idle, working, needs-input, success, error, offline` for every character, with intensity, motion modes, gaze, poke and status replay. Status never changes the face.
 - **Held by tests.** For every character: all 96 emotion × status renders, features and tears on the plate across every emotion, intensity, loop time and gaze extreme, status shapes in frame and off the face at 24–240 px, 24 px greyscale readability, a silhouette check that no two characters are the same shape, a greyscale icon-size look-alike check, and a fingerprint of every character's full output so an unrecorded change fails. Jojo's markup is pinned byte-for-byte to the approved baseline (240 hashes).
+- **信号镇 (Signal Town)**, a separate web app in `town/`: a 3D town where the 26 characters work as your team. Each has a job, a desk with its own prop and an output shelf; you harvest finished work like crops, answer the ones who need a decision, reassign jobs, and come back to a summary of what happened while you were away. It runs on a deterministic demo simulation, or on a JSON feed from your own agents. It is not part of the showcase build, is `noindex`, and deploys as its own site — see [docs/TOWN.md](docs/TOWN.md).
 - **A static showcase site** (Vite + React) to browse the family and play with every character. The public build is checked (`scripts/check-public-dist.ts`, run by `pnpm build` and `tests/public-site.test.ts`) to contain only the page, its JS/CSS/fonts, a 404 page and the favicon: no downloads, kits, source art, revision masters, source maps or repository links.
 
 ## Use it (private)
@@ -36,6 +37,8 @@ pnpm dev             # favicon, then starts the site
 pnpm test            # vitest: legacy Jojo suite + family contract + public-build guard
 pnpm build           # favicon → typecheck → dist/ → public-build check
 pnpm export:private  # full asset kit (SVG / PNG / WebP / zips) → private-exports/ (gitignored, never deployed)
+pnpm dev:town        # 信号镇, the work town (docs/TOWN.md)
+pnpm build:town      # typecheck → town/dist/
 ```
 
 Tools: `scripts/ref/measure.ts` (measure a source image), `scripts/ref/check-spec.ts` (identity + constraints + contact sheet for a draft character), `pnpm identity`, `pnpm sheets`, `scripts/gen-manifest.ts`.
@@ -73,5 +76,6 @@ tests/                  vitest suites
 - **测试兜底**：26 位 × 16 表情 × 6 状态全部渲染；五官、眉、腮红、眼泪在所有表情/力度/动画时间/视线极值下不出脸板；状态标识在 24–240px 不出画框、不盖脸；Jojo 的输出与已验收版本逐字节一致。
 - **仓库已转为私有**（2026-09-25）：这是 Joye 的个人角色 IP，不再公开源码和素材。组件不发布、不对外授权；需要完整素材时在本地运行 `pnpm export:private`（输出到 gitignore 的 `private-exports/`，不会进入网站构建）。
 - **展示站**：https://jojo-friends.vercel.app 继续公开，可按名字/编号查找、试玩全部表情与状态、分享角色链接；不再提供源码链接、复制代码、SVG / PNG / WebP 导出或素材包下载。`pnpm build` 与 `tests/public-site.test.ts` 会检查公开构建里没有下载、素材包、原画、母版、source map 或仓库链接。本站不连接任何真实 Agent 或个人任务。
+- **信号镇**：`town/` 里的独立网页应用。26 位伙伴在 3D 小镇里给你打工：每人有岗位、工位和产出货架，做好的东西像收菜一样收进来，有人等你拍板或卡住了会进收件箱，还能换岗位；关掉页面大家照常干活，回来时一起结算。默认是演示数据，也可以接入你自己 agent 的 JSON feed。它不属于展示站的构建，单独部署（noindex），见 [docs/TOWN.md](docs/TOWN.md)。
 - **授权**：代码私有且未授权（UNLICENSED）；角色形象没有通用使用授权，未做商标检索，使用或合作请走 https://www.joyehuang.me/contact 。原画为 AI 生图，详见 [reference/README.md](reference/README.md)。
 - **残余边界**：网站正常运行时，浏览器必然会下载前端 JS 和渲染出的 SVG，技术上无法阻止有人从页面里提取当前角色图形；此前公开期间已被克隆或下载的副本也无法收回。

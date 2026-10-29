@@ -3,6 +3,7 @@ node_modules
 .pnpm-cache
 dist
 dist-lib
+town/dist
 out
 *.log
 .DS_Store
