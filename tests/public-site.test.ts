@@ -89,7 +89,7 @@ describe('public build configuration', () => {
     expect(pkg.scripts.build).not.toMatch(/export-private-kit|export-site-assets/)
     expect(pkg.scripts.dev).not.toMatch(/export-private-kit|export-site-assets/)
     expect(pkg.scripts.build).toMatch(/check-public-dist\.ts dist$/)
-    expect(pkg.license).toBe('UNLICENSED')
+    expect(pkg.license).toBe('MIT AND CC-BY-4.0')
   })
 
   it('source maps stay off', () => {

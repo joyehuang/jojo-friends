@@ -50,11 +50,11 @@ export function emotionSheetSvg(ch: Character) {
   )
 }
 
-const LICENSE_NOTE = `Jojo & Friends — private asset kit
-Joye's personal character IP. Exported locally from the Jojo & Friends
-React/SVG components for private use; not for redistribution. No licence is
-granted by these files. Source art was AI-generated (ChatGPT image
-generation) and redrawn as layered vectors.
+const LICENSE_NOTE = `Jojo & Friends — asset kit
+Exported from the Jojo & Friends React/SVG components. The character art is
+licensed under CC BY 4.0: credit "Jojo & Friends by Joye Huang" with a link to
+https://github.com/joyehuang/jojo-friends and the licence. Source art was
+AI-generated (ChatGPT image generation) and redrawn as layered vectors.
 `
 
 async function main() {

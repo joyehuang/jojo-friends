@@ -26,4 +26,4 @@ Three characters no longer follow their source image on purpose: **Pocket `o05`*
 
 ## Rights
 
-These designs are published for viewing and review. **No licence to use the characters or mascots is granted** (the repository is `UNLICENSED`), usage rights are still to be confirmed, and no trademark search has been done.
+The character art, these reference images included, is licensed under CC BY 4.0 ([LICENSE-ART](../LICENSE-ART)); the code is MIT ([LICENSE](../LICENSE)). The source images were AI-generated, which may limit the copyright they carry on their own; the licence covers whatever rights Joye holds in them and in the redrawn designs. No trademark rights are granted and no trademark search has been done.
